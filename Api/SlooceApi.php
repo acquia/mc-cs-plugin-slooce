@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace Mautic\SmsBundle\Api;
+namespace MauticPlugin\MauticSlooceTransportBundle\Api;
 
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
@@ -17,14 +17,17 @@ use libphonenumber\PhoneNumberUtil;
 use Mautic\CoreBundle\Helper\PhoneNumberHelper;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
+use Mautic\SmsBundle\Api\AbstractSmsApi;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
+use MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector;
 use Monolog\Logger;
 
 class SlooceApi extends AbstractSmsApi
 {
     /**
-     * @var \Services_Twilio
+     * @var Connector
      */
-    protected $client;
+    protected $connector;
 
     /**
      * @var Logger
@@ -35,6 +38,7 @@ class SlooceApi extends AbstractSmsApi
      * @var string
      */
     protected $sendingPhoneNumber;
+
 
     /**
      * @param TrackableModel    $pageTrackableModel
@@ -87,6 +91,11 @@ class SlooceApi extends AbstractSmsApi
         if ($number === null) {
             return false;
         }
+
+        if (is_null($this->connector)) {
+            throw new SloocePluginException('There is no connector available');
+        }
+
 
         try {
             $this->client->account->messages->sendMessage(

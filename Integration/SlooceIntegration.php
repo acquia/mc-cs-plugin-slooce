@@ -9,7 +9,7 @@
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace Mautic\SmsBundle\Integration;
+namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
 use Mautic\LeadBundle\Model\FieldModel;
@@ -29,6 +29,11 @@ class SlooceIntegration extends AbstractIntegration
      */
     protected $fieldModel;
 
+    /**
+     * SlooceIntegration constructor.
+     *
+     * @param FieldModel $fieldModel
+     */
     public function __construct(FieldModel $fieldModel)
     {
         $this->fieldModel = $fieldModel;
