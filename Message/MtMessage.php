@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * @copyright   2018 Mautic Contributors. All rights reserved
  * @author      Mautic
@@ -11,7 +13,6 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 
-use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 
 /**
@@ -26,12 +27,24 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
  */
 class MtMessage extends AbstractMessage
 {
+    /**
+     * @var string The String to be sent in a message
+     */
     private $content;
 
+    /**
+     * @var string The Phone number without leading plus sign
+     */
     private $userId;
 
+    /**
+     * @var string The project identifier from the plugin's configuration
+     */
     private $keyword;
 
+    /**
+     * The maximum allowed size of the message's string
+     */
     const MAXIMUM_LENGTH = 160;
 
     /**

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /*
  * @copyright   2018 Mautic Contributors. All rights reserved
  * @author      Mautic
@@ -12,10 +13,7 @@
 namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 
 
-use Mautic\PluginBundle\Entity\Integration;
-use Mautic\PluginBundle\Helper\IntegrationHelper;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
-use MauticPlugin\MauticSlooceTransportBundle\Integration\SlooceIntegration;
 
 /**
  * Class MessageFactory

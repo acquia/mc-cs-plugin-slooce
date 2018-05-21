@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 /*
  * @copyright   2018 Mautic Contributors. All rights reserved
@@ -16,10 +17,10 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Mautic\CoreBundle\Helper\PhoneNumberHelper;
 use Mautic\LeadBundle\Entity\Lead;
+use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
-use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory;
@@ -51,14 +52,20 @@ class SlooceTransport extends AbstractSmsApi
     private $keywordField;
 
     /**
-     * SlooceApi constructor.
+     * @var DoNotContact
+     */
+    private $doNotContactService;
+
+    /**
+     * SlooceTransport constructor.
      *
-     * @param TrackableModel    $pageTrackableModel
+     * @param TrackableModel $pageTrackableModel
      * @param PhoneNumberHelper $phoneNumberHelper
      * @param IntegrationHelper $integrationHelper
-     * @param Logger            $logger
-     * @param Connector         $connector
-     * @param MessageFactory    $messageFactory
+     * @param Logger $logger
+     * @param Connector $connector
+     * @param MessageFactory $messageFactory
+     * @param DoNotContact $doNotContactService
      */
     public function __construct(
         TrackableModel $pageTrackableModel,
@@ -66,11 +73,13 @@ class SlooceTransport extends AbstractSmsApi
         IntegrationHelper $integrationHelper,
         Logger $logger,
         Connector $connector,
-        MessageFactory $messageFactory)
+        MessageFactory $messageFactory,
+        DoNotContact $doNotContactService)
     {
-        $this->logger         = $logger;
-        $this->connector      = $connector;
+        $this->logger = $logger;
+        $this->connector = $connector;
         $this->messageFactory = $messageFactory;
+        $this->doNotContactService = $doNotContactService;
 
         $integration = $integrationHelper->getIntegrationObject('Slooce');
 
@@ -83,8 +92,7 @@ class SlooceTransport extends AbstractSmsApi
                 $this->connector
                     ->setSlooceDomain($keys['slooce_domain'])
                     ->setPartnerId($keys['username'])
-                    ->setPassword($keys['password'])
-                ;
+                    ->setPassword($keys['password']);
                 $this->keywordField = isset($settings['keyword_field']) ? $settings['keyword_field'] : null;
             }
         }
@@ -101,7 +109,7 @@ class SlooceTransport extends AbstractSmsApi
      */
     protected function sanitizeNumber($number)
     {
-        $util   = PhoneNumberUtil::getInstance();
+        $util = PhoneNumberUtil::getInstance();
         $parsed = $util->parse($number, 'US');
 
         return $util->format($parsed, PhoneNumberFormat::E164);
@@ -114,6 +122,7 @@ class SlooceTransport extends AbstractSmsApi
      * @return bool|mixed|string
      * @throws SloocePluginException
      * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException
+     * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException
      */
     public function sendSms(Lead $contact, $content)
     {
@@ -126,6 +135,8 @@ class SlooceTransport extends AbstractSmsApi
             return false;
         }
 
+        $util = PhoneNumberUtil::getInstance();
+
         if (is_null($this->connector)) {
             throw new SloocePluginException('There is no connector available');
         }
@@ -133,29 +144,54 @@ class SlooceTransport extends AbstractSmsApi
         /** @var MtMessage $message */
         $message = $this->messageFactory->create();
 
-        // @todo add replacements to contect as in the documentation
         $message
             ->setContent($content)
-            ->setKeyword($contact->getFieldValue($this->keywordField))
-            ->setUserId($number)
-            ;
+            ->setKeyword($contact->getFieldValue($this->keywordField));
 
         try {
-            MessageContentValidator::validate($message);
-            $this->connector->sendMessage($message);
-        } catch (NumberParseException $e) {
-            $this->logger->addWarning(
-                $e->getMessage(),
-                ['exception' => $e]
-            );
+            $parsed = $util->parse($number, 'US');
+            $number = $util->format($parsed, PhoneNumberFormat::E164);
+            $number = substr($number, 1);
+            $message->setUserId($number);
 
+            MessageContentValidator::validate($message);
+            $this->connector->sendMtMessage($message);
+        } catch (NumberParseException $e) {
             return $e->getMessage();
-        } catch (InvalidRecipientException $exception) {
+        } catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
+            $this->unsubscribeInvalidUser($contact, $exception);
             return $exception->getMessage();
-        } catch (InvalidMessageArgumentsException $exception) {
+        } catch (InvalidMessageArgumentsException $exception) {  // Message containes invalid characters or is too long
+            $this->logger->addError('Invalid message content. ' . $exception->getMessage(),
+                ['error' => $exception->getMessage()]);
+            throw $exception;   // Check what should happen, whether exceptions is to be thrown or just a message returned
+        } catch (SloocePluginException $exception) {
+            $this->logger->addError('Slooce plugin unhandled exception', ['error' => $exception->getMessage()]);
             throw $exception;
         }
 
         return true;
+    }
+
+    /**
+     * Add user to DNC
+     *
+     * @param Lead $contact
+     * @param \Exception $exception
+     */
+    private function unsubscribeInvalidUser(Lead $contact, \Exception $exception)
+    {
+        $this->logger->addWarning(
+            $exception->getMessage(),
+            ['exception' => $exception]
+        );
+
+        $this->doNotContactService->addDncForContact(
+            $contact->getId(),
+            'sms',  //  no idea
+            \Mautic\LeadBundle\Entity\DoNotContact::BOUNCED,
+            $exception->getMessage(),
+            true
+        );
     }
 }

@@ -35,6 +35,7 @@ return [
                     'monolog.logger.mautic',
                     'mautic.slooce.connector',
                     'mautic.slooce.message_factory',
+                    'mautic.lead.model.dnc'
                 ],
                 'tag'          => 'mautic.sms_transport',
                 'tagArguments' => [

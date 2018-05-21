@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * @copyright   2018 Mautic Contributors. All rights reserved
  * @author      Mautic
@@ -16,7 +18,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
-use Symfony\Component\PropertyAccess\Exception\NoSuchIndexException;
 
 /**
  * Class Connector
@@ -56,23 +57,36 @@ class Connector
         ];
     }
 
-
-    public function sendMessage(AbstractMessage $message)
+    /**
+     * @param AbstractMessage $message
+     *
+     * @throws ConnectorException
+     * @throws InvalidRecipientException
+     * @throws SloocePluginException
+     * @throws SlooceServerException
+     */
+    public function sendMtMessage(AbstractMessage $message)
     {
         $message->setPartnerPassword($this->password);
 
         $this->postMessage('messageSend', $message);
     }
 
-    public function getPartnerPassword()
-    {
-        throw new NoSuchIndexException();
-    }
 
+    /**
+     * @param $endpoint
+     * @param AbstractMessage $message
+     *
+     * @return array
+     * @throws ConnectorException
+     * @throws InvalidRecipientException
+     * @throws SloocePluginException
+     * @throws SlooceServerException
+     */
     private function postMessage($endpoint, AbstractMessage $message)
     {
         if (!isset($this->endpoints[$endpoint])) {
-            throw new SloocePluginException('Unknown endpoint ' . $message
+            throw new ConnectorException('Unknown endpoint ' . $message
                 . ', registered endpoints: ' . join(', ', array_keys($this->endpoints)));
         }
 
@@ -106,11 +120,7 @@ class Connector
 
         curl_close($ch);
 
-        print_r('<pre>');
-        var_dump($response);
-        print_r('</pre>');
-
-        die();
+        return $response;
     }
 
     /**
@@ -127,7 +137,7 @@ class Connector
     : array
     {
         if (false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
-            throw new \Exception('curl exception :' . curl_error($curlHandler));
+            throw new SlooceServerException('curl exception :' . curl_error($curlHandler));
         }
 
         $httpcode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
@@ -135,17 +145,17 @@ class Connector
         $xmlResponse = simplexml_load_string($data);
 
         if (false === $xmlResponse) {
-            throw new SlooceServerException('Failed to parse API response.', $httpcode, $message);
+            throw new SlooceServerException('Failed to parse response.', $httpcode, $message);
         }
 
         switch ($httpcode) {
             case 202:
                 break;
             case 403:
-                throw new InvalidRecipientException((string) $xmlResponse, $httpcode);
+                throw new InvalidRecipientException((string)$xmlResponse, $httpcode);
             case 400:
             case 500:
-                throw new SlooceServerException($xmlResponse, $httpcode, $message);
+                throw new SlooceServerException((string)$xmlResponse, $httpcode, $message);
                 break;
         }
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 /*
  * @copyright   2018 Mautic Contributors. All rights reserved
  * @author      Mautic
@@ -36,7 +38,7 @@ class MessageContentValidator
     {
         $content = $message->encodeStringToProviderEncoding($message->getContent());
 
-        if (strlen($content)>self::MAX_CONTENT_LENGTH) {
+        if (mb_strlen($content)>self::MAX_CONTENT_LENGTH) {
             throw new InvalidMessageArgumentsException('Message content is too long. Maximum is ' . self::MAX_CONTENT_LENGTH . " characters");
         }
 
@@ -60,7 +62,8 @@ class MessageContentValidator
      * use " instead of  <“> and <”>
      * use ... instead of ...   (Note: that's three separate periods instead of the single ellipsis character)
      * @throws InvalidMessageArgumentsException
-     * @return
+     *
+     * @return void
      */
     public static function validateString($content)
     {

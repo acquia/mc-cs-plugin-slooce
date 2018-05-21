@@ -15,7 +15,6 @@ use Ivory\OrderedForm\Builder\OrderedFormBuilder;
 use Mautic\IntegrationBundle\Integration\BasicIntegration;
 use Mautic\LeadBundle\Model\FieldModel;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 /**
  * Class SlooceIntegration

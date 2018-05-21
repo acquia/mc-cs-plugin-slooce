@@ -1,0 +1,19 @@
+{
+  "name": "galvani/mautic-slooce-plugin",
+  "description": "This plugin enables  ",
+  "type": "mautic-plugin",
+  "version": "1.0",
+  "keywords": ["slooce","mautic","plugin","sms","transport"],
+  "authors": [
+    {
+      "name": "Jan Kozak",
+      "email": "galvani78@gmail.com",
+      "homepage": "https://github.com/galvani",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "mautic/composer-plugin": "^1.0",
+    "mautic/mautic": "^2.14"
+  }
+}

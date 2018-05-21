@@ -16,7 +16,9 @@ use Mautic\SmsBundle\DependencyInjection\Compiler\SmsTransportPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class MauticSmsBundle.
+ * Class MauticSlooceTransportBundle
+ *
+ * @package MauticPlugin\MauticSlooceTransportBundle
  */
 class MauticSlooceTransportBundle extends PluginBundleBase
 {
