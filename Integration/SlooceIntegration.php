@@ -12,12 +12,17 @@
 namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
+use Mautic\IntegrationBundle\Integration\BasicIntegration;
 use Mautic\LeadBundle\Model\FieldModel;
-use Mautic\PluginBundle\Integration\AbstractIntegration;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
-class SlooceIntegration extends AbstractIntegration
+/**
+ * Class SlooceIntegration
+ *
+ * @package MauticPlugin\MauticSlooceTransportBundle\Integration
+ */
+class SlooceIntegration extends BasicIntegration
 {
     /**
      * @var bool
@@ -39,16 +44,6 @@ class SlooceIntegration extends AbstractIntegration
         $this->fieldModel = $fieldModel;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return 'Slooce';
-    }
-
     public function getIcon()
     {
         return 'app/bundles/SmsBundle/Assets/img/Slooce.png';
@@ -67,7 +62,7 @@ class SlooceIntegration extends AbstractIntegration
     public function getRequiredKeyFields()
     {
         return [
-            'username' => 'mautic.sms.config.form.sms.slooce.username',
+            'username' => 'mautic.sms.config.form.sms.slooce.partnerid',
             'password' => 'mautic.sms.config.form.sms.slooce.password',
         ];
     }
@@ -107,7 +102,7 @@ class SlooceIntegration extends AbstractIntegration
                 ChoiceType::class,
                 [
                     'choices'    => $this->fieldModel->getFieldList(),
-                    'label'      => 'mautic.sms.config.form.sms.slooce.keyword_field',
+                    'label'      => 'mautic.slooce.config.keyword_field',
                     'label_attr' => ['class' => 'control-label'],
                     'required'   => true,
                     'attr'       => [
@@ -115,33 +110,19 @@ class SlooceIntegration extends AbstractIntegration
                     ],
                 ]
             );
-            $builder->add('frequency_number',
-                          NumberType::class,
-                          [
-                    'precision'  => 0,
-                    'label'      => 'mautic.sms.list.frequency.number',
+        } elseif ($formArea == "keys") {
+            $builder->add(
+                'slooce_domain',
+                'text',
+                [
+                    'label'      => 'mautic.slooce.config.slooce_domain',
                     'label_attr' => ['class' => 'control-label'],
-                    'required'   => false,
+                    'required'   => true,
                     'attr'       => [
-                        'class' => 'form-control frequency',
+                        'class' => 'form-control',
                     ],
-                ]);
-            $builder->add('frequency_time',
-                          ChoiceType::class,
-                          [
-                    'choices' => [
-                        'DAY'   => 'day',
-                        'WEEK'  => 'week',
-                        'MONTH' => 'month',
-                    ],
-                    'label'      => 'mautic.lead.list.frequency.times',
-                    'label_attr' => ['class' => 'control-label'],
-                    'required'   => false,
-                    'multiple'   => false,
-                    'attr'       => [
-                        'class' => 'form-control frequency',
-                    ],
-                ]);
+                ]
+            );
         }
     }
 }

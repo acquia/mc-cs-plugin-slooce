@@ -11,13 +11,13 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 
+use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
+
 /**
  * Class Message
  *
  * @package MauticPlugin\MauticSlooceTransportBundle\Slooce
- *
- *
- *
  * @example
  * <message id="abcdef123">
  * <partnerpassword>jTUWufdis</partnerpassword>
@@ -26,7 +26,88 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Message;
  */
 class MtMessage extends AbstractMessage
 {
-    public function getSerializable() {
+    private $content;
 
+    private $userId;
+
+    private $keyword;
+
+    const MAXIMUM_LENGTH = 160;
+
+    /**
+     * @return array
+     */
+    public function getSerializable()
+    : array
+    {
+        return ['content' => $this->getContent()];
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    : string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param $content
+     *
+     * @return $this
+     * @throws MessageException
+     */
+    public function setContent($content)
+    : MtMessage
+    {
+        if (strlen($content) > self::MAXIMUM_LENGTH) {
+            throw new MessageException('Message may not be longer than ' . self::MAXIMUM_LENGTH . ' characters');
+        }
+        $this->content = $content;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param string $userId
+     *
+     * @return MtMessage
+     */
+    public function setUserId($userId)
+    : MtMessage
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKeyword()
+    : string
+    {
+        return $this->keyword;
+    }
+
+    /**
+     * @param string $keyword
+     *
+     * @return MtMessage
+     */
+    public function setKeyword($keyword)
+    : MtMessage
+    {
+        $this->keyword = $keyword;
+
+        return $this;
     }
 }

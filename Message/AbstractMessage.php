@@ -11,12 +11,12 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 
+use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
+
 /**
  * Class Message
  *
  * @package MauticPlugin\MauticSlooceTransportBundle\Slooce
- *
- *
  *
  * @example
  * <message id="abcdef123">
@@ -27,14 +27,19 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 abstract class AbstractMessage
 {
     /**
-     * @var string
+     * Part of the message that should contain the password
      */
-    private $apiEncoding     = 'ISO-8859-1';
+    const PASSWORD_ELEMENT = 'partnerpassword';
 
     /**
      * @var string
      */
-    private $messageId       = null;
+    private $apiEncoding = 'ISO-8859-1';
+
+    /**
+     * @var string
+     */
+    private $messageId = null;
 
     /**
      * @var string
@@ -53,16 +58,6 @@ abstract class AbstractMessage
 
 
     /**
-     * @return null
-     */
-    public function getPartnerPassword()
-    : string
-
-    {
-        return $this->partnerPassword;
-    }
-
-    /**
      * @param null $partnerPassword
      *
      * @return AbstractMessage
@@ -74,21 +69,52 @@ abstract class AbstractMessage
         return $this;
     }
 
-    abstract public function getSerializable();
+    /**
+     * @return array
+     */
+    abstract public function getSerializable()
+    : array;
 
-    public function getXML() {
-        $xml = new \DOMDocument('1.0', $this->apiEncoding);
+
+    /**
+     * @return string
+     * @throws InvalidMessageArgumentsException
+     */
+    public function getXML()
+    : string
+    {
+        if (is_null($this->getMessageId())) {
+            $this->generateMessageId();
+        }
+
+        $xml            = new \DOMDocument('1.0', $this->apiEncoding);
         $messageElement = $xml->createElement('message');
         $messageElement->setAttribute('id', $this->messageId);
 
         $serializable = $this->getSerializable();
-        foreach ($serializable as $elementName=>$elementValue) {
-            $elementValue = mb_convert_encoding($elementValue, 'UTF-8', $this->apiEncoding);
-            $xmlElement = $xml->createElement($elementName, $elementValue);
+
+        if (!is_null($this->partnerPassword) && !array_key_exists(self::PASSWORD_ELEMENT, $serializable)) {
+            $passwordElement = $xml->createElement(self::PASSWORD_ELEMENT, $this->partnerPassword);
+            $messageElement->appendChild($passwordElement);
+        }
+        else {
+            throw new InvalidMessageArgumentsException('No password set');
+        }
+
+
+        foreach ($serializable as $elementName => $elementValue) {
+            $elementValue = $this->encodeStringToProviderEncoding($elementValue);
+            $xmlElement   = $xml->createElement($elementName, $elementValue);
             $messageElement->appendChild($xmlElement);
         }
 
-        var_dump($xml->saveXML());
+        $xml->appendChild($messageElement);
+
+        return $xml->saveXML();
+
+        $lines = explode("\n", $xml->saveXML());
+
+        return $lines[1];
     }
 
     /**
@@ -112,5 +138,44 @@ abstract class AbstractMessage
         return $this;
     }
 
+    /**
+     * @return AbstractMessage
+     */
+    protected function generateMessageId()
+    : AbstractMessage
+    {
+        $this->setMessageId('slooce-' . date('Ymd-Hims') . '-' . substr(sha1(microtime()), 0, 5));
+        return $this;
+    }
 
+    /**
+     * @return array
+     */
+    public function getSanitizedArray()
+    : array
+    {
+        $serializable = $this->getSerializable();
+        if (is_null($serializable)) {
+            return [];
+        }
+
+        $output = [];
+        foreach ($serializable as $key => $value) {
+            if ($key == self::PASSWORD_ELEMENT || $value == $this->partnerPassword) {
+                continue;
+            }
+            $output[] = sprintf("%s='%s'", $key, mb_convert_encoding($value, 'UTF-8', $this->apiEncoding));
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param string $message
+     *
+     * @return string
+     */
+    public function encodeStringToProviderEncoding(string $message): string {
+        return mb_convert_encoding($message, 'UTF-8', $this->apiEncoding);
+    }
 }

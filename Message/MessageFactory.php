@@ -25,24 +25,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Integration\SlooceIntegration;
 class MessageFactory
 {
     /**
-     * @var SlooceIntegration
-     */
-    private $pluginIntegration;
-
-    /** @var array */
-    private $encoders;
-
-    /**
-     * MessageFactory constructor.
-     *
-     * @param Integration $pluginIntegration
-     */
-    public function __construct(IntegrationHelper $integrationHelper)
-    {
-        $this->pluginIntegration = $integrationHelper->getIntegrationObject('Slooce');
-    }
-
-    /**
      * @param string $type
      *
      * @return AbstractMessage

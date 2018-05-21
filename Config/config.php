@@ -27,22 +27,27 @@ return [
         ],
         'other' => [
             'mautic.sms.transport.slooce' => [
-                'class'        => \MauticPlugin\MauticSlooceTransportBundle\Api\SlooceApi::class,
+                'class'        => \MauticPlugin\MauticSlooceTransportBundle\Transport\SlooceTransport::class,
                 'arguments'    => [
                     'mautic.page.model.trackable',
                     'mautic.helper.phone_number',
                     'mautic.helper.integration',
                     'monolog.logger.mautic',
+                    'mautic.slooce.connector',
+                    'mautic.slooce.message_factory',
                 ],
                 'tag'          => 'mautic.sms_transport',
                 'tagArguments' => [
                     'alias' => 'Slooce',
                 ],
             ],
-            'mautic.slooce.api' => [
-                'class' => \MauticPlugin\MauticSlooceTransportBundle\Api\SlooceApi::class,
+            'mautic.slooce.connector' => [
+                'class' => \MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector::class,
                 'arguments'=> [
-
+                    'mautic.page.model.trackable',
+                    'mautic.helper.phone_number',
+                    'mautic.helper.integration',
+                    'monolog.logger.mautic',
                 ]
             ]
         ],
@@ -54,6 +59,7 @@ return [
                 'arguments' => [
                     'mautic.lead.model.field',
                 ],
+                'tags'      => ['mautic.integration', 'mautic.basic_integration']
             ],
         ],
     ],
