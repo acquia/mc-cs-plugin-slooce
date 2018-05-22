@@ -182,7 +182,7 @@ class SlooceTransport extends AbstractSmsApi
     private function unsubscribeInvalidUser(Lead $contact, \Exception $exception)
     {
         $this->logger->addWarning(
-            $exception->getMessage(),
+            "Invalid user added to DNC list. " . $exception->getMessage(),
             ['exception' => $exception]
         );
 

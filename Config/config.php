@@ -39,7 +39,7 @@ return [
                 ],
                 'tag'          => 'mautic.sms_transport',
                 'tagArguments' => [
-                    'alias' => 'Slooce',
+                    'integrationAlias' => 'Slooce',
                 ],
             ],
             'mautic.slooce.connector' => [

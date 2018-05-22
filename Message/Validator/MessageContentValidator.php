@@ -42,7 +42,7 @@ class MessageContentValidator
             throw new InvalidMessageArgumentsException('Message content is too long. Maximum is ' . self::MAX_CONTENT_LENGTH . " characters");
         }
 
-        self::validate($content);
+        self::validateString($content);
 
         return $message;
     }
