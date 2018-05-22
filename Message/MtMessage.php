@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 
+use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 
 /**
@@ -68,14 +69,14 @@ class MtMessage extends AbstractMessage
     /**
      * @param $content
      *
-     * @return $this
-     * @throws MessageException
+     * @return MtMessage
+     * @throws InvalidMessageArgumentsException
      */
     public function setContent($content)
     : MtMessage
     {
         if (strlen($content) > self::MAXIMUM_LENGTH) {
-            throw new MessageException('Message may not be longer than ' . self::MAXIMUM_LENGTH . ' characters');
+            throw new InvalidMessageArgumentsException('Message may not be longer than ' . self::MAXIMUM_LENGTH . ' characters');
         }
         $this->content = $content;
         return $this;
