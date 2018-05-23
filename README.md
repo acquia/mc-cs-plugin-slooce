@@ -40,7 +40,8 @@ In the root of the project run ```composer require galvani/mautic-slooce-plugin`
 ### Install as drop-in
 
  * Download requested version as zip file from this github repository.
- * Unpack its contect into /plugins directory of Mautic installation
+ * Clone the repository
+``` git clone https://github.com/galvani/mautic-slooce-plugin.git plugins/MauticSlooceTransportBundle```
  * Navigate to Mautic's plugin administration. 
  * Click **Install/upgrade plugins** button.
  * Enable and configure plugin.
