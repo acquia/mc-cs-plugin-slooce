@@ -2,7 +2,7 @@
   "name": "galvani/mautic-slooce-transport-bundle",
   "description": "This plugin enables Slooce messaging service in Mautic ",
   "type": "mautic-plugin",
-  "version": "1.0",
+  "version": "1.0.2",
   "keywords": ["slooce","mautic","plugin","sms","transport"],
   "authors": [
     {
