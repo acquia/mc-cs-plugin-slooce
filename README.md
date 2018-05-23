@@ -32,16 +32,15 @@ Ccreate a custom field for Mautic Lead to hold the short-code associated with gi
 
 ### Install using composer
 
-In the root of the project run ```composer require galvani/mautic-slooce-plugin```
-
-> Beware that installing a package using composer will render your composer.lock out-of-sync with Mautic's repository version.
-> Should you want to file a bug in Mautic; do not forget to mention installed plugins.
+In the root of the project run ```composer.phar require galvani/mautic-slooce-transport-bundle:1.0```
 
 ### Install as drop-in
 
  * Download requested version as zip file from this github repository.
- * Clone the repository
+ * Clone the repository into plugins directory:
+ 
 ``` git clone https://github.com/galvani/mautic-slooce-plugin.git plugins/MauticSlooceTransportBundle```
+
  * Navigate to Mautic's plugin administration. 
  * Click **Install/upgrade plugins** button.
  * Enable and configure plugin.
