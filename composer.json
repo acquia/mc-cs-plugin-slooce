@@ -2,7 +2,7 @@
   "name": "galvani/mautic-slooce-plugin",
   "description": "This plugin enables  ",
   "type": "mautic-plugin",
-  "version": "1.0",
+  "version": "1.0-beta",
   "keywords": ["slooce","mautic","plugin","sms","transport"],
   "authors": [
     {
