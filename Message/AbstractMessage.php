@@ -113,10 +113,6 @@ abstract class AbstractMessage
         $xml->appendChild($messageElement);
 
         return $xml->saveXML();
-
-        $lines = explode("\n", $xml->saveXML());
-
-        return $lines[1];
     }
 
     /**
