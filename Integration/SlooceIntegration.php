@@ -13,6 +13,7 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
 use Mautic\IntegrationBundle\Integration\BasicIntegration;
+use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
 use Mautic\LeadBundle\Model\FieldModel;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -21,8 +22,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
  *
  * @package MauticPlugin\MauticSlooceTransportBundle\Integration
  */
-class SlooceIntegration extends BasicIntegration
+class SlooceIntegration implements BasicInterface
 {
+    use \Mautic\IntegrationsBundle\Integration\BasicIntegration;
     /**
      * @var bool
      */
