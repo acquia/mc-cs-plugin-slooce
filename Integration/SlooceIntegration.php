@@ -94,8 +94,7 @@ class SlooceIntegration extends BasicIntegration
      */
     public function appendToForm(&$builder, $data, $formArea)
     {
-        //dump($this->fieldModel->getLeadFields());exit;
-        if ($formArea === 'features') {
+        if ($formArea === 'keys') {
             $builder->add(
                 'keyword_field',
                 ChoiceType::class,
@@ -109,7 +108,6 @@ class SlooceIntegration extends BasicIntegration
                     ],
                 ]
             );
-        } elseif ($formArea == "keys") {
             $builder->add(
                 'slooce_domain',
                 'text',
