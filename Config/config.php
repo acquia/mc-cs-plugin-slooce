@@ -60,7 +60,7 @@ return [
                 'arguments' => [
                     'mautic.lead.model.field',
                 ],
-                'tags'      => ['mautic.integration', 'mautic.basic_integration']
+                'tags'      => ['mautic.integration', 'mautic.basic_integration', 'mautic.encryption_integration', 'mautic.dispatcher_integration']
             ],
         ],
     ],

@@ -16,7 +16,7 @@ use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
 
 class SlooceServerException extends \Exception
 {
-    public function __construct(string $xmlResponse = "", int $httpCode,AbstractMessage $payload)
+    public function __construct(string $xmlResponse, int $httpCode, AbstractMessage $payload)
     {
         $message = sprintf("Slooce API Exception: %d - %s, message: %s ", $httpCode, $xmlResponse, print_r($payload->getSanitizedArray(), true));
 

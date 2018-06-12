@@ -12,8 +12,12 @@
 namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
-use Mautic\IntegrationBundle\Integration\BasicIntegration;
+use Mautic\IntegrationsBundle\Integration\BasicIntegration;
+use Mautic\IntegrationsBundle\Integration\DispatcherIntegration;
+use Mautic\IntegrationsBundle\Integration\EncryptionIntegration;
 use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
+use Mautic\IntegrationsBundle\Integration\Interfaces\DispatcherInterface;
+use Mautic\IntegrationsBundle\Integration\Interfaces\EncryptionInterface;
 use Mautic\LeadBundle\Model\FieldModel;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
@@ -22,9 +26,12 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
  *
  * @package MauticPlugin\MauticSlooceTransportBundle\Integration
  */
-class SlooceIntegration implements BasicInterface
+class SlooceIntegration
+    extends BasicIntegration
+    implements BasicInterface, EncryptionInterface, DispatcherInterface
 {
-    use \Mautic\IntegrationsBundle\Integration\BasicIntegration;
+    use EncryptionIntegration, DispatcherIntegration;
+
     /**
      * @var bool
      */
@@ -34,6 +41,14 @@ class SlooceIntegration implements BasicInterface
      * @var FieldModel
      */
     protected $fieldModel;
+
+    /**
+     * @inheritDoc
+     */
+    public function getName(): string
+    {
+        return "Slooce";
+    }
 
     /**
      * SlooceIntegration constructor.

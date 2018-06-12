@@ -136,16 +136,12 @@ class Connector
     private function handleResponse($curlHandler, $data, AbstractMessage $message)
     : array
     {
-        if (false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
-            throw new SlooceServerException('curl exception :' . curl_error($curlHandler));
-        }
-
         $httpcode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
 
         $xmlResponse = simplexml_load_string($data);
 
-        if (false === $xmlResponse) {
-            throw new SlooceServerException('Failed to parse response.', $httpcode, $message);
+        if ($xmlResponse === false || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
+            throw new SlooceServerException('curl exception :' . curl_error($curlHandler), $httpcode, $message);
         }
 
         switch ($httpcode) {

@@ -48,7 +48,7 @@ class MessageContentValidator
     }
 
     /**
-     * @param $message
+     * @param $content
      *
      * @see Supported Characters
      * Generally speaking, only a subset of the standard ASCII character set is supported for content being
@@ -65,7 +65,7 @@ class MessageContentValidator
      *
      * @return void
      */
-    public static function validateString($content)
+    public static function validateString(string $content)
     {
         $matches = null;
         $regexp = '|^[' . self::VALID_CHARACTERS . ']+$|';
