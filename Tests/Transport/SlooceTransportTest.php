@@ -13,7 +13,6 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Transport;
 
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector;
-use MauticPlugin\MauticSlooceTransportBundle\Transport\SlooceTransport;
 
 class SlooceTransportTest extends \PHPUnit_Framework_TestCase
 {

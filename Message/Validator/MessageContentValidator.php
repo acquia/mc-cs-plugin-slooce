@@ -36,6 +36,10 @@ class MessageContentValidator
      */
     public static function validate(MtMessage $message) : MtMessage
     {
+        if (is_null($message->getKeyword())) {
+            throw new InvalidMessageArgumentsException('Message has no keyword set.');
+        }
+
         $content = $message->encodeStringToProviderEncoding($message->getContent());
 
         if (mb_strlen($content)>self::MAX_CONTENT_LENGTH) {

@@ -18,6 +18,7 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
+use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
 /**
  * Class Connector
@@ -58,14 +59,14 @@ class Connector
     }
 
     /**
-     * @param AbstractMessage $message
+     * @param MtMessage $message
      *
      * @throws ConnectorException
      * @throws InvalidRecipientException
      * @throws SloocePluginException
      * @throws SlooceServerException
      */
-    public function sendMtMessage(AbstractMessage $message)
+    public function sendMtMessage(MtMessage $message)
     {
         $message->setPartnerPassword($this->password);
 
@@ -75,7 +76,7 @@ class Connector
 
     /**
      * @param $endpoint
-     * @param AbstractMessage $message
+     * @param MtMessage $message
      *
      * @return array
      * @throws ConnectorException
@@ -83,10 +84,10 @@ class Connector
      * @throws SloocePluginException
      * @throws SlooceServerException
      */
-    private function postMessage($endpoint, AbstractMessage $message)
+    private function postMessage($endpoint, MtMessage $message)
     {
         if (!isset($this->endpoints[$endpoint])) {
-            throw new ConnectorException('Unknown endpoint ' . $message
+            throw new ConnectorException('Unknown endpoint ' . $endpoint
                 . ', registered endpoints: ' . join(', ', array_keys($this->endpoints)));
         }
 
@@ -99,7 +100,6 @@ class Connector
         $endpointURI = str_replace('<partnerid>', $this->getPartnerId(), $this->endpoints[$endpoint]);
         $endpointURI = str_replace('<user>', '1' . $message->getUserId(), $endpointURI);
         $endpointURI = str_replace('<keyword>', $message->getKeyword(), $endpointURI);
-
         $apiURL = $apiDomain . "/" . $endpointURI;
 
         $payload = $message->getXML();
@@ -117,8 +117,6 @@ class Connector
         $data = curl_exec($ch);
 
         $response = $this->handleResponse($ch, $data, $message);
-
-        curl_close($ch);
 
         return $response;
     }

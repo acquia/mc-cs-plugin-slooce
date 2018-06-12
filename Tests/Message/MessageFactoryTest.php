@@ -20,7 +20,7 @@ class MessageFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $factory = new MessageFactory();
-        $this->assertInstanceOf(MtMessage::class, $message = $factory->create('ohlala'));
+        $this->assertInstanceOf(MtMessage::class, $message = $factory->create('MTMessage', 'ohlala'));
         $this->assertEquals('ohlala', $message->getMessageId());
     }
 }

@@ -23,18 +23,18 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 class MessageFactory
 {
     /**
-     * @param string $type
+     * @param string $type type of message to create, currently only **MTMessage**
+     * @param null   $messageId
      *
      * @return AbstractMessage
      * @throws MessageException
      */
-    public function create($type = 'MTMessage')
+    public function create($type = 'MTMessage', $messageId = null)
     : AbstractMessage
     {
-
         switch ($type) {
             case 'MTMessage':
-                return new MtMessage(uniqid('mautic'));
+                return new MtMessage($messageId ?: uniqid('mautic'));
         }
 
 

@@ -21,7 +21,9 @@ use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
@@ -127,9 +129,10 @@ class SlooceTransport extends AbstractSmsApi
     public function sendSms(Lead $contact, $content)
     {
         $number = $contact->getMobile();
-        if (empty($leadPhoneNumber)) {
+        if (empty($number)) {
             $number = $contact->getPhone();
         }
+
 
         if (empty($number)) {
             return false;
@@ -161,10 +164,9 @@ class SlooceTransport extends AbstractSmsApi
         } catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
             $this->unsubscribeInvalidUser($contact, $exception);
             return $exception->getMessage();
-        } catch (InvalidMessageArgumentsException $exception) {  // Message containes invalid characters or is too long
-            $this->logger->addError('Invalid message content. ' . $exception->getMessage(),
-                ['error' => $exception->getMessage()]);
-            throw $exception;   // Check what should happen, whether exceptions is to be thrown or just a message returned
+        } catch (MessageException $exception) {  // Message containes invalid characters or is too long
+            $this->logger->addError('Invalid message.', ['error' => $exception->getMessage()]);
+            return $exception->getMessage();
         } catch (SloocePluginException $exception) {
             $this->logger->addError('Slooce plugin unhandled exception', ['error' => $exception->getMessage()]);
             throw $exception;

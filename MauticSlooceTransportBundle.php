@@ -12,7 +12,6 @@
 namespace MauticPlugin\MauticSlooceTransportBundle;
 
 use Mautic\PluginBundle\Bundle\PluginBundleBase;
-use Mautic\SmsBundle\DependencyInjection\Compiler\SmsTransportPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -24,6 +23,6 @@ class MauticSlooceTransportBundle extends PluginBundleBase
 {
     public function build(ContainerBuilder $container)
     {
-
+        parent::build($container);
     }
 }

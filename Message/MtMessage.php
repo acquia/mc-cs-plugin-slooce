@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
-use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 
 /**
  * Class Message
@@ -107,7 +106,6 @@ class MtMessage extends AbstractMessage
      * @return string
      */
     public function getKeyword()
-    : string
     {
         return $this->keyword;
     }
