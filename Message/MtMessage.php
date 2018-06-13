@@ -122,4 +122,18 @@ class MtMessage extends AbstractMessage
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getSanitizedArray()
+    : array
+    {
+        $output = parent::getSanitizedArray();
+        $output['userId'] = $this->getUserId();
+        $output['keyword'] = $this->getKeyword();
+
+        return $output;
+    }
+
 }

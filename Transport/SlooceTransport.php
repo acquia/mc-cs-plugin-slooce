@@ -88,14 +88,13 @@ class SlooceTransport extends AbstractSmsApi
         if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
             $keys = $integration->getDecryptedApiKeys($integration->getIntegrationSettings());
 
-            $settings = $integration->getIntegrationSettings()->getFeatureSettings();
-
             if (isset($keys['username']) && isset($keys['password']) && isset($keys['slooce_domain'])) {
                 $this->connector
                     ->setSlooceDomain($keys['slooce_domain'])
                     ->setPartnerId($keys['username'])
                     ->setPassword($keys['password']);
-                $this->keywordField = isset($settings['keyword_field']) ? $settings['keyword_field'] : null;
+
+                $this->keywordField = isset($keys['keyword_field']) ? $keys['keyword_field'] : null;
             }
         }
 
@@ -146,6 +145,9 @@ class SlooceTransport extends AbstractSmsApi
 
         /** @var MtMessage $message */
         $message = $this->messageFactory->create();
+
+        var_dump($this->keywordField);
+        var_dump($contact->getFieldValue($this->keywordField));
 
         $message
             ->setContent($content)
