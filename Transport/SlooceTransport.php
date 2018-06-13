@@ -21,7 +21,6 @@ use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
-use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
