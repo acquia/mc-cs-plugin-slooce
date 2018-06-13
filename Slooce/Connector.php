@@ -50,7 +50,7 @@ class Connector
      */
     public function __construct()
     {
-        $this->slooceDomain = "samples.cloud";
+        $this->slooceDomain = "";
 
         $this->endpoints = [
             'register'    => 'spi/<partnerid>/<user>/<keyword>/messages/start',
