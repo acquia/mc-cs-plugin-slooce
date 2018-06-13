@@ -162,15 +162,21 @@ class SlooceTransport extends AbstractSmsApi
 
             MessageContentValidator::validate($message);
             $this->connector->sendMtMessage($message);
-        } catch (NumberParseException $e) {
-            return $e->getMessage();
-        } catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
+        }
+        catch (NumberParseException $exception) {
+            $this->logger->addInfo('Invalid number format', ['error' => $exception->getMessage()]);
+            return 'mautic.slooce.failed.invalid_phone_number';
+        }
+        catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
+            $this->logger->addInfo('Invalid recipient', ['error' => $exception->getMessage()]);
             $this->unsubscribeInvalidUser($contact, $exception);
-            return $exception->getMessage();
-        } catch (MessageException $exception) {  // Message containes invalid characters or is too long
+            return 'mautic.slooce.failed.rejected_recipient';
+        }
+        catch (MessageException $exception) {  // Message containes invalid characters or is too long
             $this->logger->addError('Invalid message.', ['error' => $exception->getMessage()]);
-            return $exception->getMessage();
-        } catch (SloocePluginException $exception) {
+            return 'mautic.slooce.failed.invalid_message_format';
+        }
+        catch (SloocePluginException $exception) {
             $this->logger->addError('Slooce plugin unhandled exception', ['error' => $exception->getMessage()]);
             throw $exception;
         }
