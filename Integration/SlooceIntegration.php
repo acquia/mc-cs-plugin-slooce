@@ -60,11 +60,17 @@ class SlooceIntegration
         $this->fieldModel = $fieldModel;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getIcon()
     {
         return 'app/bundles/SmsBundle/Assets/img/Slooce.png';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getSecretKeys()
     {
         return ['password'];

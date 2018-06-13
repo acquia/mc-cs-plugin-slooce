@@ -11,7 +11,11 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 
-
+/**
+ * Class ConnectorException
+ *
+ * @package MauticPlugin\MauticSlooceTransportBundle\Exception
+ */
 class ConnectorException extends SloocePluginException
 {
     

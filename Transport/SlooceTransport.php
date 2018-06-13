@@ -30,6 +30,11 @@ use MauticPlugin\MauticSlooceTransportBundle\Message\Validator\MessageContentVal
 use MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector;
 use Monolog\Logger;
 
+/**
+ * Class SlooceTransport is the transport service for mautic
+ *
+ * @package MauticPlugin\MauticSlooceTransportBundle\Transport
+ */
 class SlooceTransport extends AbstractSmsApi
 {
     /**
@@ -144,9 +149,6 @@ class SlooceTransport extends AbstractSmsApi
 
         /** @var MtMessage $message */
         $message = $this->messageFactory->create();
-
-        var_dump($this->keywordField);
-        var_dump($contact->getFieldValue($this->keywordField));
 
         $message
             ->setContent($content)

@@ -11,7 +11,10 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 
-
+/**
+ * Class MessageException
+ * @package MauticPlugin\MauticSlooceTransportBundle\Exception
+ */
 class MessageException extends SloocePluginException
 {
     

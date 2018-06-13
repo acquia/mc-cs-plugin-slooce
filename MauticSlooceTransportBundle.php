@@ -21,6 +21,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class MauticSlooceTransportBundle extends PluginBundleBase
 {
+    /**
+     * @inheritdoc
+     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

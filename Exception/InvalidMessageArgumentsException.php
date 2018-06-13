@@ -11,8 +11,11 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 
-
+/**
+ * Class InvalidMessageArgumentsException
+ * @package MauticPlugin\MauticSlooceTransportBundle\Exception
+ */
 class InvalidMessageArgumentsException extends MessageException
 {
-    
+
 }

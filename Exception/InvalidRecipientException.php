@@ -11,7 +11,10 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 
-
+/**
+ * Class InvalidRecipientException
+ * @package MauticPlugin\MauticSlooceTransportBundle\Exception
+ */
 class InvalidRecipientException extends MessageException
 {
     

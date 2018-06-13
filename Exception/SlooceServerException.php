@@ -11,11 +11,21 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 
-
 use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
 
+/**
+ * Class SlooceServerException
+ * @package MauticPlugin\MauticSlooceTransportBundle\Exception
+ */
 class SlooceServerException extends \Exception
 {
+    /**
+     * SlooceServerException constructor.
+     *
+     * @param string          $xmlResponse
+     * @param int             $httpCode
+     * @param AbstractMessage $payload
+     */
     public function __construct(string $xmlResponse, int $httpCode, AbstractMessage $payload)
     {
         $message = sprintf("Slooce API Exception: %d - %s, message: %s ", $httpCode, $xmlResponse, print_r($payload->getSanitizedArray(), true));

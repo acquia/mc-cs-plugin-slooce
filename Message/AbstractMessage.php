@@ -89,6 +89,7 @@ abstract class AbstractMessage
             $this->generateMessageId();
         }
 
+        /** @noinspection PhpFullyQualifiedNameUsageInspection */
         $xml            = new \DOMDocument('1.0', $this->apiEncoding);
         $messageElement = $xml->createElement('message');
         $messageElement->setAttribute('id', $this->messageId);
