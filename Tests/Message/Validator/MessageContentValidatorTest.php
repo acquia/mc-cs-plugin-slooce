@@ -31,7 +31,7 @@ class MessageContentValidatorTest extends \PHPUnit_Framework_TestCase
     public function testValidate()
     {
         $message = new MtMessage();
-        $message->setContent('fjwenifhwewn,khfe,khnwifewe');
+        $message->setContent('fjwenifhwewn,khfe,khnwifewe')->setKeyword('aaaa');
 
         try {
             $this->validator->validate($message);
