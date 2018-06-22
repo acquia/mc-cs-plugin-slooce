@@ -30,9 +30,7 @@ This package requires at least Mautic 2.14 in order to function. Mautic 2.13 int
 
 Ccreate a custom field for Mautic Lead to hold the short-code associated with given user.
 
-### Install using composer
-
-In the root of the project run ```composer.phar require galvani/mautic-slooce-transport-bundle:1.0```
+### DO NOT Install using composer
 
 ### Install as drop-in
 
