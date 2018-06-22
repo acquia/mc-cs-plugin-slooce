@@ -39,7 +39,7 @@ In the root of the project run ```composer.phar require galvani/mautic-slooce-tr
  * Download requested version as zip file from this github repository.
  * Clone the repository into plugins directory:
  
-``` git clone https://github.com/galvani/mautic-slooce-plugin.git plugins/MauticSlooceTransportBundle```
+``` git clone https://github.com/mautic-internal/plugin-slooce.git plugins/MauticSlooceTransportBundle```
 
  * Navigate to Mautic's plugin administration. 
  * Click **Install/upgrade plugins** button.
