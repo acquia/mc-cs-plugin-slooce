@@ -12,13 +12,14 @@
 namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
-use Mautic\IntegrationsBundle\Integration\BasicIntegration;
-use Mautic\IntegrationsBundle\Integration\DispatcherIntegration;
-use Mautic\IntegrationsBundle\Integration\EncryptionIntegration;
-use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
-use Mautic\IntegrationsBundle\Integration\Interfaces\DispatcherInterface;
-use Mautic\IntegrationsBundle\Integration\Interfaces\EncryptionInterface;
 use Mautic\LeadBundle\Model\FieldModel;
+use MauticPlugin\MauticIntegrationsBundle\Integration\BasicIntegration;
+use MauticPlugin\MauticIntegrationsBundle\Integration\DispatcherIntegration;
+use MauticPlugin\MauticIntegrationsBundle\Integration\EncryptionIntegration;
+use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\BasicInterface;
+use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\boold;
+use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\DispatcherInterface;
+use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\EncryptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
@@ -31,11 +32,6 @@ class SlooceIntegration
     implements BasicInterface, EncryptionInterface, DispatcherInterface
 {
     use EncryptionIntegration, DispatcherIntegration;
-
-    /**
-     * @var bool
-     */
-    protected $coreIntegration = true;
 
     /**
      * @var FieldModel
@@ -65,7 +61,7 @@ class SlooceIntegration
      */
     public function getIcon()
     {
-        return 'app/bundles/SmsBundle/Assets/img/Slooce.png';
+        return 'plugins/MauticSlooceTransportBundle/Assets/img/slooce.png';
     }
 
     /**
