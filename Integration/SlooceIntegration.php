@@ -17,19 +17,14 @@ use MauticPlugin\MauticIntegrationsBundle\Integration\BasicIntegration;
 use MauticPlugin\MauticIntegrationsBundle\Integration\DispatcherIntegration;
 use MauticPlugin\MauticIntegrationsBundle\Integration\EncryptionIntegration;
 use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\BasicInterface;
-use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\boold;
 use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\DispatcherInterface;
 use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\EncryptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
- * Class SlooceIntegration
- *
- * @package MauticPlugin\MauticSlooceTransportBundle\Integration
+ * Class SlooceIntegration.
  */
-class SlooceIntegration
-    extends BasicIntegration
-    implements BasicInterface, EncryptionInterface, DispatcherInterface
+class SlooceIntegration extends BasicIntegration implements BasicInterface, EncryptionInterface, DispatcherInterface
 {
     use EncryptionIntegration, DispatcherIntegration;
 
@@ -39,11 +34,11 @@ class SlooceIntegration
     protected $fieldModel;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName(): string
     {
-        return "Slooce";
+        return 'Slooce';
     }
 
     /**
@@ -57,7 +52,7 @@ class SlooceIntegration
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getIcon()
     {
@@ -65,7 +60,7 @@ class SlooceIntegration
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getSecretKeys()
     {

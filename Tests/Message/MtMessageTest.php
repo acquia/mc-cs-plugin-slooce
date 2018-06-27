@@ -31,7 +31,7 @@ class MtMessageTest extends \PHPUnit_Framework_TestCase
     public function testGetSerializable()
     {
         $serializable = $this->message->getSerializable();
-        $this->assertArrayHasKey('content',$serializable );
+        $this->assertArrayHasKey('content', $serializable);
     }
 
     public function testGetXML()
@@ -41,10 +41,11 @@ class MtMessageTest extends \PHPUnit_Framework_TestCase
         $this->assertNotFalse($xml);
 
         $this->assertEquals($xml->content, $this->message->getContent());
-        $this->assertEquals((string)$xml->{AbstractMessage::PASSWORD_ELEMENT}, 'borg');
+        $this->assertEquals((string) $xml->{AbstractMessage::PASSWORD_ELEMENT}, 'borg');
     }
 
-    public function testGetSanitizedArray() {
+    public function testGetSanitizedArray()
+    {
         $this->assertArrayNotHasKey(MtMessage::PASSWORD_ELEMENT, $this->message->getSanitizedArray());
     }
 }

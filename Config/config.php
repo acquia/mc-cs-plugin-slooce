@@ -14,7 +14,7 @@ return [
     'description' => 'Enables integrations Slooce MT Transport',
     'version'     => '1.0',
     'author'      => 'Mautic',
-    'services' => [
+    'services'    => [
         'events' => [
         ],
         'forms' => [
@@ -22,7 +22,7 @@ return [
         'helpers' => [
             'mautic.slooce.message_factory' => [
                 'class'     => 'MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory',
-                'alias' => 'slooce_message_factory',
+                'alias'     => 'slooce_message_factory',
             ],
         ],
         'other' => [
@@ -35,7 +35,7 @@ return [
                     'monolog.logger.mautic',
                     'mautic.slooce.connector',
                     'mautic.slooce.message_factory',
-                    'mautic.lead.model.dnc'
+                    'mautic.lead.model.dnc',
                 ],
                 'tag'          => 'mautic.sms_transport',
                 'tagArguments' => [
@@ -43,14 +43,14 @@ return [
                 ],
             ],
             'mautic.slooce.connector' => [
-                'class' => \MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector::class,
+                'class'    => \MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector::class,
                 'arguments'=> [
                     'mautic.page.model.trackable',
                     'mautic.helper.phone_number',
                     'mautic.helper.integration',
                     'monolog.logger.mautic',
-                ]
-            ]
+                ],
+            ],
         ],
         'models' => [
         ],
@@ -60,7 +60,7 @@ return [
                 'arguments' => [
                     'mautic.lead.model.field',
                 ],
-                'tags'      => ['mautic.integration', 'mautic.basic_integration', 'mautic.encryption_integration', 'mautic.dispatcher_integration']
+                'tags'      => ['mautic.integration', 'mautic.basic_integration', 'mautic.encryption_integration', 'mautic.dispatcher_integration'],
             ],
         ],
     ],

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -16,9 +17,8 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 
 /**
- * Class Message
+ * Class Message.
  *
- * @package MauticPlugin\MauticSlooceTransportBundle\Slooce
  *
  * @example
  * <message id="abcdef123">
@@ -29,7 +29,7 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsEx
 abstract class AbstractMessage
 {
     /**
-     * Part of the message that should contain the password
+     * Part of the message that should contain the password.
      */
     const PASSWORD_ELEMENT = 'partnerpassword';
 
@@ -58,32 +58,29 @@ abstract class AbstractMessage
         $this->messageId = $id;
     }
 
-
     /**
      * @param null $partnerPassword
      *
      * @return AbstractMessage
      */
-    public function setPartnerPassword($partnerPassword)
-    : AbstractMessage
+    public function setPartnerPassword($partnerPassword): AbstractMessage
     {
         $this->partnerPassword = $partnerPassword;
+
         return $this;
     }
 
     /**
      * @return array
      */
-    abstract public function getSerializable()
-    : array;
-
+    abstract public function getSerializable(): array;
 
     /**
      * @return string
+     *
      * @throws InvalidMessageArgumentsException
      */
-    public function getXML()
-    : string
+    public function getXML(): string
     {
         if (is_null($this->getMessageId())) {
             $this->generateMessageId();
@@ -99,11 +96,9 @@ abstract class AbstractMessage
         if (!is_null($this->partnerPassword) && !array_key_exists(self::PASSWORD_ELEMENT, $serializable)) {
             $passwordElement = $xml->createElement(self::PASSWORD_ELEMENT, $this->partnerPassword);
             $messageElement->appendChild($passwordElement);
-        }
-        else {
+        } else {
             throw new InvalidMessageArgumentsException('No password set');
         }
-
 
         foreach ($serializable as $elementName => $elementValue) {
             $elementValue = $this->encodeStringToProviderEncoding($elementValue);
@@ -119,8 +114,7 @@ abstract class AbstractMessage
     /**
      * @return string
      */
-    public function getMessageId()
-    : string
+    public function getMessageId(): string
     {
         return $this->messageId;
     }
@@ -130,28 +124,27 @@ abstract class AbstractMessage
      *
      * @return AbstractMessage
      */
-    public function setMessageId(string $messageId)
-    : AbstractMessage
+    public function setMessageId(string $messageId): AbstractMessage
     {
         $this->messageId = $messageId;
+
         return $this;
     }
 
     /**
      * @return AbstractMessage
      */
-    protected function generateMessageId()
-    : AbstractMessage
+    protected function generateMessageId(): AbstractMessage
     {
-        $this->setMessageId('slooce-' . date('Ymd-Hims') . '-' . substr(sha1(microtime()), 0, 5));
+        $this->setMessageId('slooce-'.date('Ymd-Hims').'-'.substr(sha1(microtime()), 0, 5));
+
         return $this;
     }
 
     /**
      * @return array
      */
-    public function getSanitizedArray()
-    : array
+    public function getSanitizedArray(): array
     {
         $serializable = $this->getSerializable();
         if (is_null($serializable)) {
@@ -174,7 +167,8 @@ abstract class AbstractMessage
      *
      * @return string
      */
-    public function encodeStringToProviderEncoding(string $message): string {
+    public function encodeStringToProviderEncoding(string $message): string
+    {
         return mb_convert_encoding($message, 'UTF-8', $this->apiEncoding);
     }
 }

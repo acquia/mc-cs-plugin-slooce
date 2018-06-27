@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -31,9 +32,7 @@ use MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector;
 use Monolog\Logger;
 
 /**
- * Class SlooceTransport is the transport service for mautic
- *
- * @package MauticPlugin\MauticSlooceTransportBundle\Transport
+ * Class SlooceTransport is the transport service for mautic.
  */
 class SlooceTransport extends AbstractSmsApi
 {
@@ -65,13 +64,13 @@ class SlooceTransport extends AbstractSmsApi
     /**
      * SlooceTransport constructor.
      *
-     * @param TrackableModel $pageTrackableModel
+     * @param TrackableModel    $pageTrackableModel
      * @param PhoneNumberHelper $phoneNumberHelper
      * @param IntegrationHelper $integrationHelper
-     * @param Logger $logger
-     * @param Connector $connector
-     * @param MessageFactory $messageFactory
-     * @param DoNotContact $doNotContactService
+     * @param Logger            $logger
+     * @param Connector         $connector
+     * @param MessageFactory    $messageFactory
+     * @param DoNotContact      $doNotContactService
      */
     public function __construct(
         TrackableModel $pageTrackableModel,
@@ -82,9 +81,9 @@ class SlooceTransport extends AbstractSmsApi
         MessageFactory $messageFactory,
         DoNotContact $doNotContactService)
     {
-        $this->logger = $logger;
-        $this->connector = $connector;
-        $this->messageFactory = $messageFactory;
+        $this->logger              = $logger;
+        $this->connector           = $connector;
+        $this->messageFactory      = $messageFactory;
         $this->doNotContactService = $doNotContactService;
 
         $integration = $integrationHelper->getIntegrationObject('Slooce');
@@ -114,7 +113,7 @@ class SlooceTransport extends AbstractSmsApi
      */
     protected function sanitizeNumber($number)
     {
-        $util = PhoneNumberUtil::getInstance();
+        $util   = PhoneNumberUtil::getInstance();
         $parsed = $util->parse($number, 'US');
 
         return $util->format($parsed, PhoneNumberFormat::E164);
@@ -125,6 +124,7 @@ class SlooceTransport extends AbstractSmsApi
      * @param $content
      *
      * @return bool|mixed|string
+     *
      * @throws SloocePluginException
      * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException
      * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException
@@ -135,7 +135,6 @@ class SlooceTransport extends AbstractSmsApi
         if (empty($number)) {
             $number = $contact->getPhone();
         }
-
 
         if (empty($number)) {
             return false;
@@ -162,21 +161,20 @@ class SlooceTransport extends AbstractSmsApi
 
             MessageContentValidator::validate($message);
             $this->connector->sendMtMessage($message);
-        }
-        catch (NumberParseException $exception) {
+        } catch (NumberParseException $exception) {
             $this->logger->addInfo('Invalid number format', ['error' => $exception->getMessage()]);
+
             return 'mautic.slooce.failed.invalid_phone_number';
-        }
-        catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
+        } catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
             $this->logger->addInfo('Invalid recipient', ['error' => $exception->getMessage()]);
             $this->unsubscribeInvalidUser($contact, $exception);
+
             return 'mautic.slooce.failed.rejected_recipient';
-        }
-        catch (MessageException $exception) {  // Message containes invalid characters or is too long
+        } catch (MessageException $exception) {  // Message containes invalid characters or is too long
             $this->logger->addError('Invalid message.', ['error' => $exception->getMessage()]);
+
             return 'mautic.slooce.failed.invalid_message_format';
-        }
-        catch (SloocePluginException $exception) {
+        } catch (SloocePluginException $exception) {
             $this->logger->addError('Slooce plugin unhandled exception', ['error' => $exception->getMessage()]);
             throw $exception;
         }
@@ -185,15 +183,15 @@ class SlooceTransport extends AbstractSmsApi
     }
 
     /**
-     * Add user to DNC
+     * Add user to DNC.
      *
-     * @param Lead $contact
+     * @param Lead       $contact
      * @param \Exception $exception
      */
     private function unsubscribeInvalidUser(Lead $contact, \Exception $exception)
     {
         $this->logger->addWarning(
-            "Invalid user added to DNC list. " . $exception->getMessage(),
+            'Invalid user added to DNC list. '.$exception->getMessage(),
             ['exception' => $exception]
         );
 

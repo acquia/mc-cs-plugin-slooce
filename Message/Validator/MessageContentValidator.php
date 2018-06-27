@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -17,24 +18,23 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsEx
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
 /**
- * Class MessageContentValidator
+ * Class MessageContentValidator.
  *
  * It may be worth creating a service but right now I choose singleton
- *
- * @package MauticPlugin\MauticSlooceTransportBundle\Message\Validator
  */
 class MessageContentValidator
 {
     const MAX_CONTENT_LENGTH = 160;
-    const VALID_CHARACTERS = 'A-Za-z0-9\ @$_\/.,\'"():;\-=+*&%#!\\?<>';
+    const VALID_CHARACTERS   = 'A-Za-z0-9\ @$_\/.,\'"():;\-=+*&%#!\\?<>';
 
     /**
      * @param MtMessage $message
      *
      * @return MtMessage
+     *
      * @throws InvalidMessageArgumentsException
      */
-    public static function validate(MtMessage $message) : MtMessage
+    public static function validate(MtMessage $message): MtMessage
     {
         if (is_null($message->getKeyword())) {
             throw new InvalidMessageArgumentsException('Message has no keyword set.');
@@ -42,8 +42,8 @@ class MessageContentValidator
 
         $content = $message->encodeStringToProviderEncoding($message->getContent());
 
-        if (mb_strlen($content)>self::MAX_CONTENT_LENGTH) {
-            throw new InvalidMessageArgumentsException('Message content is too long. Maximum is ' . self::MAX_CONTENT_LENGTH . " characters");
+        if (mb_strlen($content) > self::MAX_CONTENT_LENGTH) {
+            throw new InvalidMessageArgumentsException('Message content is too long. Maximum is '.self::MAX_CONTENT_LENGTH.' characters');
         }
 
         self::validateString($content);
@@ -65,17 +65,16 @@ class MessageContentValidator
      * use ' instead of  <`> and <’>
      * use " instead of  <“> and <”>
      * use ... instead of ...   (Note: that's three separate periods instead of the single ellipsis character)
-     * @throws InvalidMessageArgumentsException
      *
-     * @return void
+     * @throws InvalidMessageArgumentsException
      */
     public static function validateString(string $content)
     {
         $matches = null;
-        $regexp = '|^[' . self::VALID_CHARACTERS . ']+$|';
+        $regexp  = '|^['.self::VALID_CHARACTERS.']+$|';
 
         if (!preg_match($regexp, $content, $matches)) {
-            throw new InvalidMessageArgumentsException("Message content contains invalid characters");
+            throw new InvalidMessageArgumentsException('Message content contains invalid characters');
         }
     }
 }

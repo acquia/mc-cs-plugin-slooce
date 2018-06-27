@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -16,9 +17,8 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Message;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 
 /**
- * Class Message
+ * Class Message.
  *
- * @package MauticPlugin\MauticSlooceTransportBundle\Slooce
  * @example
  * <message id="abcdef123">
  * <partnerpassword>jTUWufdis</partnerpassword>
@@ -43,15 +43,14 @@ class MtMessage extends AbstractMessage
     private $keyword;
 
     /**
-     * The maximum allowed size of the message's string
+     * The maximum allowed size of the message's string.
      */
     const MAXIMUM_LENGTH = 160;
 
     /**
      * @return array
      */
-    public function getSerializable()
-    : array
+    public function getSerializable(): array
     {
         return ['content' => $this->getContent()];
     }
@@ -59,8 +58,7 @@ class MtMessage extends AbstractMessage
     /**
      * @return string
      */
-    public function getContent()
-    : string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -69,15 +67,16 @@ class MtMessage extends AbstractMessage
      * @param $content
      *
      * @return MtMessage
+     *
      * @throws InvalidMessageArgumentsException
      */
-    public function setContent($content)
-    : MtMessage
+    public function setContent($content): MtMessage
     {
         if (strlen($content) > self::MAXIMUM_LENGTH) {
-            throw new InvalidMessageArgumentsException('Message may not be longer than ' . self::MAXIMUM_LENGTH . ' characters');
+            throw new InvalidMessageArgumentsException('Message may not be longer than '.self::MAXIMUM_LENGTH.' characters');
         }
         $this->content = $content;
+
         return $this;
     }
 
@@ -94,8 +93,7 @@ class MtMessage extends AbstractMessage
      *
      * @return MtMessage
      */
-    public function setUserId($userId)
-    : MtMessage
+    public function setUserId($userId): MtMessage
     {
         $this->userId = $userId;
 
@@ -115,8 +113,7 @@ class MtMessage extends AbstractMessage
      *
      * @return MtMessage
      */
-    public function setKeyword($keyword)
-    : MtMessage
+    public function setKeyword($keyword): MtMessage
     {
         $this->keyword = $keyword;
 
@@ -126,14 +123,12 @@ class MtMessage extends AbstractMessage
     /**
      * @return array
      */
-    public function getSanitizedArray()
-    : array
+    public function getSanitizedArray(): array
     {
-        $output = parent::getSanitizedArray();
-        $output['userId'] = $this->getUserId();
+        $output            = parent::getSanitizedArray();
+        $output['userId']  = $this->getUserId();
         $output['keyword'] = $this->getKeyword();
 
         return $output;
     }
-
 }

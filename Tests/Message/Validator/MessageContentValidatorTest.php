@@ -35,27 +35,25 @@ class MessageContentValidatorTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->validator->validate($message);
-            $this->assertTrue(true, "Validation has passed");
+            $this->assertTrue(true, 'Validation has passed');
         } catch (\Exception $e) {
-            $this->fail('Validation of valid message end with no exception, error:  ' . $e->getMessage());
+            $this->fail('Validation of valid message end with no exception, error:  '.$e->getMessage());
         }
 
         $message->setContent('k,wuerk,eíwšřčěščěš');
 
         try {
             $this->validator->validate($message);
-            $this->fail( "Validation should fail");
+            $this->fail('Validation should fail');
         } catch (\Exception $e) {
-            $this->assertInstanceOf(InvalidMessageArgumentsException::class, $e,get_class($e) . " matches InvalidMessageArgumentsException");
+            $this->assertInstanceOf(InvalidMessageArgumentsException::class, $e, get_class($e).' matches InvalidMessageArgumentsException');
         }
-
 
         try {
-            $message->setContent(str_repeat(".",MessageContentValidator::MAX_CONTENT_LENGTH + 1));
-            $this->fail( "Setter should fail");
+            $message->setContent(str_repeat('.', MessageContentValidator::MAX_CONTENT_LENGTH + 1));
+            $this->fail('Setter should fail');
         } catch (\Exception $e) {
-            $this->assertInstanceOf(InvalidMessageArgumentsException::class, $e,get_class($e) . " matches InvalidMessageArgumentsException");
+            $this->assertInstanceOf(InvalidMessageArgumentsException::class, $e, get_class($e).' matches InvalidMessageArgumentsException');
         }
-
     }
 }

@@ -16,7 +16,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
 class MessageFactoryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCreate()
     {
         $factory = new MessageFactory();

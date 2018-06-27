@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -21,14 +22,12 @@ use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
 /**
- * Class Connector
- *
- * @package MauticPlugin\MauticSlooceTransportBundle\Slooce
+ * Class Connector.
  */
 class Connector
 {
     /** @var string */
-    private $apiDomain = "https://<sloocedomain>.sloocetech.net/slooce_apps";
+    private $apiDomain = '<sloocedomain>.sloocetech.net/slooce_apps';
 
     /** @var array */
     private $endpoints = [];
@@ -50,11 +49,11 @@ class Connector
      */
     public function __construct()
     {
-        $this->slooceDomain = "";
+        $this->slooceDomain = '';
 
         $this->endpoints = [
-            'register'    => 'spi/<partnerid>/<user>/<keyword>/messages/start',
-            'messageSend' => 'spi/<partnerid>/<user>/<keyword>/messages/mt',
+            'register'    => '<partnerid>/<user>/<keyword>/messages/start',
+            'messageSend' => '<partnerid>/<user>/<keyword>/messages/mt',
         ];
     }
 
@@ -73,12 +72,12 @@ class Connector
         $this->postMessage('messageSend', $message);
     }
 
-
     /**
      * @param $endpoint
      * @param MtMessage $message
      *
      * @return array
+     *
      * @throws ConnectorException
      * @throws InvalidRecipientException
      * @throws SloocePluginException
@@ -87,8 +86,8 @@ class Connector
     private function postMessage($endpoint, MtMessage $message)
     {
         if (!isset($this->endpoints[$endpoint])) {
-            throw new ConnectorException('Unknown endpoint ' . $endpoint
-                . ', registered endpoints: ' . join(', ', array_keys($this->endpoints)));
+            throw new ConnectorException('Unknown endpoint '.$endpoint
+                .', registered endpoints: '.join(', ', array_keys($this->endpoints)));
         }
 
         if (is_null($this->slooceDomain) || is_null($this->partnerId)) {
@@ -98,15 +97,15 @@ class Connector
         $apiDomain = str_replace('<sloocedomain>', $this->getSlooceDomain(), $this->apiDomain);
 
         $endpointURI = str_replace('<partnerid>', $this->getPartnerId(), $this->endpoints[$endpoint]);
-        $endpointURI = str_replace('<user>', '1' . $message->getUserId(), $endpointURI);
+        $endpointURI = str_replace('<user>', '1'.$message->getUserId(), $endpointURI);
         $endpointURI = str_replace('<keyword>', $message->getKeyword(), $endpointURI);
-        $apiURL = $apiDomain . "/" . $endpointURI;
+        $apiURL      = rtrim($apiDomain,'/').'/'.$endpointURI;
 
         $payload = $message->getXML();
 
         $ch = curl_init();
 
-        $headers = ["Accept: application/xml", "Content-Type: application/xml"];
+        $headers = ['Accept: application/xml', 'Content-Type: application/xml'];
 
         curl_setopt($ch, CURLOPT_URL, $apiURL);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -131,25 +130,24 @@ class Connector
      *
      * @return array
      */
-    private function handleResponse($curlHandler, $data, AbstractMessage $message)
-    : array
+    private function handleResponse($curlHandler, $data, AbstractMessage $message): array
     {
         $httpcode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
 
         $xmlResponse = $data ? simplexml_load_string($data) : false;
 
         if ($xmlResponse === false || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
-            throw new SlooceServerException('curl exception :' . curl_error($curlHandler), $httpcode, $message);
+            throw new SlooceServerException('curl exception :'.curl_error($curlHandler), $httpcode, $message);
         }
 
         switch ($httpcode) {
             case 202:
                 break;
             case 403:
-                throw new InvalidRecipientException((string)$xmlResponse, $httpcode);
+                throw new InvalidRecipientException((string) $xmlResponse, $httpcode);
             case 400:
             case 500:
-                throw new SlooceServerException((string)$xmlResponse, $httpcode, $message);
+                throw new SlooceServerException((string) $xmlResponse, $httpcode, $message);
                 break;
         }
 
@@ -161,8 +159,7 @@ class Connector
     /**
      * @return string
      */
-    public function getSlooceDomain()
-    : string
+    public function getSlooceDomain(): string
     {
         return $this->slooceDomain;
     }
@@ -172,18 +169,17 @@ class Connector
      *
      * @return Connector
      */
-    public function setSlooceDomain(string $slooceDomain)
-    : Connector
+    public function setSlooceDomain(string $slooceDomain): Connector
     {
         $this->slooceDomain = $slooceDomain;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getPartnerId()
-    : string
+    public function getPartnerId(): string
     {
         return $this->partnerId;
     }
@@ -193,10 +189,10 @@ class Connector
      *
      * @return Connector
      */
-    public function setPartnerId(string $partnerId)
-    : Connector
+    public function setPartnerId(string $partnerId): Connector
     {
-        $this->partnerId = (string)$partnerId;
+        $this->partnerId = (string) $partnerId;
+
         return $this;
     }
 
@@ -205,18 +201,17 @@ class Connector
      *
      * @return Connector
      */
-    public function setPassword(string $password)
-    : Connector
+    public function setPassword(string $password): Connector
     {
         $this->password = $password;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getShortCodeField()
-    : string
+    public function getShortCodeField(): string
     {
         return $this->shortCodeField;
     }
@@ -226,12 +221,10 @@ class Connector
      *
      * @return Connector
      */
-    public function setShortCodeField(string $shortCodeField)
-    : Connector
+    public function setShortCodeField(string $shortCodeField): Connector
     {
         $this->shortCodeField = $shortCodeField;
+
         return $this;
     }
-
-
 }

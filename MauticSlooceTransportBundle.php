@@ -15,14 +15,12 @@ use Mautic\PluginBundle\Bundle\PluginBundleBase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
- * Class MauticSlooceTransportBundle
- *
- * @package MauticPlugin\MauticSlooceTransportBundle
+ * Class MauticSlooceTransportBundle.
  */
 class MauticSlooceTransportBundle extends PluginBundleBase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function build(ContainerBuilder $container)
     {
