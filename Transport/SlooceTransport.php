@@ -131,11 +131,7 @@ class SlooceTransport extends AbstractSmsApi
      */
     public function sendSms(Lead $contact, $content)
     {
-        $number = $contact->getMobile();
-        if (empty($number)) {
-            $number = $contact->getPhone();
-        }
-
+        $number = $contact->getLeadPhoneNumber();
         if (empty($number)) {
             return false;
         }
@@ -161,6 +157,7 @@ class SlooceTransport extends AbstractSmsApi
 
             MessageContentValidator::validate($message);
             $this->connector->sendMtMessage($message);
+
         } catch (NumberParseException $exception) {
             $this->logger->addInfo('Invalid number format', ['error' => $exception->getMessage()]);
 

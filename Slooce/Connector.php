@@ -27,7 +27,7 @@ use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 class Connector
 {
     /** @var string */
-    private $apiDomain = '<sloocedomain>.sloocetech.net/slooce_apps';
+    private $apiDomain = '<sloocedomain>';
 
     /** @var array */
     private $endpoints = [];
@@ -97,7 +97,7 @@ class Connector
         $apiDomain = str_replace('<sloocedomain>', $this->getSlooceDomain(), $this->apiDomain);
 
         $endpointURI = str_replace('<partnerid>', $this->getPartnerId(), $this->endpoints[$endpoint]);
-        $endpointURI = str_replace('<user>', '1'.$message->getUserId(), $endpointURI);
+        $endpointURI = str_replace('<user>', $message->getUserId(), $endpointURI);
         $endpointURI = str_replace('<keyword>', $message->getKeyword(), $endpointURI);
         $apiURL      = rtrim($apiDomain,'/').'/'.$endpointURI;
 
