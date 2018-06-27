@@ -30,19 +30,15 @@ This package requires at least Mautic 2.14 in order to function. Mautic 2.13 int
 
 Ccreate a custom field for Mautic Lead to hold the short-code associated with given user.
 
-### Install using composer
-
-In the root of the project run ```composer.phar require galvani/mautic-slooce-transport-bundle:1.0```
+### DO NOT Install using composer
 
 ### Install as drop-in
 
  * Download requested version as zip file from this github repository.
  * Clone the repository into plugins directory:
- 
-``` git clone https://github.com/mautic-internal/plugin-slooce.git plugins/MauticSlooceTransportBundle```
-
- * Navigate to Mautic's plugin administration. 
- * Click **Install/upgrade plugins** button.
+``` git clone https://github.com/mautic-inc/plugin-slooce.git plugins/MauticSlooceTransportBundle```
+ * Update plugins info running: ```app/console mautic:plugins:install```
+ * Navigate to Mautic's plugin administration.
  * Enable and configure plugin.
  * You are done, Slooce can be selected as transport in Message Configuration section of Mautic's configuration.
  
