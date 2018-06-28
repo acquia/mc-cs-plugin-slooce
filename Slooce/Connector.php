@@ -145,8 +145,7 @@ class Connector
                 break;
             case 403:
                 throw new InvalidRecipientException((string) $xmlResponse, $httpcode);
-            case 400:
-            case 500:
+            default:
                 throw new SlooceServerException((string) $xmlResponse, $httpcode, $message);
                 break;
         }
