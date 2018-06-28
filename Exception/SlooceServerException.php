@@ -21,13 +21,12 @@ class SlooceServerException extends \Exception
     /**
      * SlooceServerException constructor.
      *
-     * @param string          $xmlResponse
-     * @param int             $httpCode
-     * @param AbstractMessage $payload
+     * @param string $xmlResponse
+     * @param int    $httpCode
      */
-    public function __construct(string $xmlResponse, int $httpCode, AbstractMessage $payload)
+    public function __construct(string $xmlResponse, int $httpCode)
     {
-        $message = sprintf('Slooce API Exception: %d - %s, message: %s ', $httpCode, $xmlResponse, print_r($payload->getSanitizedArray(), true));
+        $message = sprintf('%s (%d)', $xmlResponse, $httpCode);
 
         parent::__construct($message, $httpCode);
     }
