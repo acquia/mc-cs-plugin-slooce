@@ -20,26 +20,27 @@ Maximum length of message is 160 characters in ISO-8859-2. Message content is en
  * use " instead of  <“> and <”>
  * use ... instead of ...   (Note: that's three separate periods instead of the single ellipsis character)
 
-## Compatibility
+## Requirements
 
-This package requires at least Mautic 2.14 in order to function. Mautic 2.13 introduced SMS transport chain and Mautic 2.14 changes method argument to Lead i.o. number.
+1. Mautic 2.14.0
+2. PHP 7+
+3. https://github.com/mautic-inc/plugin-mautic-integrations
+
 
 ## How to install
 
 ### Preparations
 
-Ccreate a custom field for Mautic Lead to hold the short-code associated with given user.
+In Mautic, create a contact custom field to hold the Slooce keyword associated with Slooce user.
 
-### DO NOT Install using composer
+### Installation (do not use composer at this time)
 
-### Install as drop-in
+1. Download https://github.com/mautic-inc/plugin-slooce/archive/master.zip
+2. Extract it to plugins/MauticSlooceTransportBundle
+3. Delete `app/cache/prod`
+3. Run `php app/console mautic:plugins:install`
+4. Go to Plugins in Mautic's admin menu (/s/plugins)
+5. Click on Slooce, publish, and configure it with the requested information including selecting the custom field created above
+6. Go to Mautic's Configuration (/s/config/edit), click on the Text Message Settings, then choose Slooce as the default transport.
 
- * Download requested version as zip file from this github repository.
- * Clone the repository into plugins directory:
-``` git clone https://github.com/mautic-inc/plugin-slooce.git plugins/MauticSlooceTransportBundle```
- * Update plugins info running: ```app/console mautic:plugins:install```
- * Navigate to Mautic's plugin administration.
- * Enable and configure plugin.
- * You are done, Slooce can be selected as transport in Message Configuration section of Mautic's configuration.
- 
- This package is ditributed under the [MIT license](https://opensource.org/licenses/MIT)
+This package is distributed under the [MIT license](https://opensource.org/licenses/MIT)
