@@ -25,6 +25,7 @@ use Mautic\SmsBundle\Api\AbstractSmsApi;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Message\Validator\MessageContentValidator;
@@ -79,7 +80,8 @@ class SlooceTransport extends AbstractSmsApi
         Logger $logger,
         Connector $connector,
         MessageFactory $messageFactory,
-        DoNotContact $doNotContactService)
+        DoNotContact $doNotContactService
+    )
     {
         $this->logger              = $logger;
         $this->connector           = $connector;
@@ -167,10 +169,14 @@ class SlooceTransport extends AbstractSmsApi
             $this->unsubscribeInvalidUser($contact, $exception);
 
             return 'mautic.slooce.failed.rejected_recipient';
-        } catch (MessageException $exception) {  // Message containes invalid characters or is too long
+        } catch (MessageException $exception) {  // Message contains invalid characters or is too long
             $this->logger->addError('Invalid message.', ['error' => $exception->getMessage()]);
 
             return 'mautic.slooce.failed.invalid_message_format';
+        } catch (SlooceServerException $exception) {
+            $this->logger->addError('Server response error.', ['error' => $exception->getMessage()]);
+
+            return $exception->getMessage();
         } catch (SloocePluginException $exception) {
             $this->logger->addError('Slooce plugin unhandled exception', ['error' => $exception->getMessage()]);
             throw $exception;
