@@ -20,6 +20,7 @@ use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
 use MauticPlugin\IntegrationsBundle\Integration\Interfaces\DispatcherInterface;
 use MauticPlugin\IntegrationsBundle\Integration\Interfaces\EncryptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilder;
 
 /**
  * Class SlooceIntegration.
@@ -106,7 +107,7 @@ class SlooceIntegration extends BasicIntegration implements BasicInterface, Encr
      * @param array              $data
      * @param string             $formArea
      */
-    public function appendToForm(&$builder, $data, $formArea)
+    public function appendToForm(FormBuilder $builder, array $data, string $formArea)
     {
         if ($formArea === 'keys') {
             $builder->add(
