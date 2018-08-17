@@ -13,12 +13,12 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use Ivory\OrderedForm\Builder\OrderedFormBuilder;
 use Mautic\LeadBundle\Model\FieldModel;
-use MauticPlugin\MauticIntegrationsBundle\Integration\BasicIntegration;
-use MauticPlugin\MauticIntegrationsBundle\Integration\DispatcherIntegration;
-use MauticPlugin\MauticIntegrationsBundle\Integration\EncryptionIntegration;
-use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\BasicInterface;
-use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\DispatcherInterface;
-use MauticPlugin\MauticIntegrationsBundle\Integration\Interfaces\EncryptionInterface;
+use MauticPlugin\IntegrationsBundle\Integration\BasicIntegration;
+use MauticPlugin\IntegrationsBundle\Integration\DispatcherIntegration;
+use MauticPlugin\IntegrationsBundle\Integration\EncryptionIntegration;
+use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
+use MauticPlugin\IntegrationsBundle\Integration\Interfaces\DispatcherInterface;
+use MauticPlugin\IntegrationsBundle\Integration\Interfaces\EncryptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 /**
