@@ -12,6 +12,7 @@
 namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
 use MauticPlugin\IntegrationsBundle\Integration\BasicIntegration;
+use MauticPlugin\IntegrationsBundle\Integration\DefaultConfigFormTrait;
 use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
 use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
 use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
@@ -23,6 +24,8 @@ use MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType;
  */
 class SlooceIntegration extends BasicIntegration implements IntegrationInterface, BasicInterface, ConfigFormInterface, ConfigFormAuthInterface
 {
+    use DefaultConfigFormTrait;
+
     const NAME = 'Slooce';
 
     /**
@@ -47,15 +50,5 @@ class SlooceIntegration extends BasicIntegration implements IntegrationInterface
     public function getAuthConfigFormName(): string
     {
         return ConfigAuthType::class;
-    }
-
-    /**
-     * Use the default
-     *
-     * @return null|string
-     */
-    public function getConfigFormName(): ?string
-    {
-        return null;
     }
 }
