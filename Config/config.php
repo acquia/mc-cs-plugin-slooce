@@ -15,23 +15,29 @@ return [
     'version'     => '1.0',
     'author'      => 'Mautic',
     'services'    => [
-        'events' => [
+        'events'       => [
         ],
-        'forms' => [
-        ],
-        'helpers' => [
-            'mautic.slooce.message_factory' => [
-                'class'     => 'MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory',
-                'alias'     => 'slooce_message_factory',
+        'forms'        => [
+            'mautic.slooce.form.config_auth' => [
+                'class' => \MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType::class,
+                'arguments' => [
+                    'mautic.lead.model.field',
+                ],
             ],
         ],
-        'other' => [
+        'helpers'      => [
+            'mautic.slooce.message_factory' => [
+                'class' => 'MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory',
+                'alias' => 'slooce_message_factory',
+            ],
+        ],
+        'other'        => [
             'mautic.sms.transport.slooce' => [
                 'class'        => \MauticPlugin\MauticSlooceTransportBundle\Transport\SlooceTransport::class,
                 'arguments'    => [
                     'mautic.page.model.trackable',
                     'mautic.helper.phone_number',
-                    'mautic.helper.integration',
+                    'mautic.integrations.helper',
                     'monolog.logger.mautic',
                     'mautic.slooce.connector',
                     'mautic.slooce.message_factory',
@@ -42,9 +48,9 @@ return [
                     'integrationAlias' => 'Slooce',
                 ],
             ],
-            'mautic.slooce.connector' => [
-                'class'    => \MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector::class,
-                'arguments'=> [
+            'mautic.slooce.connector'     => [
+                'class'     => \MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector::class,
+                'arguments' => [
                     'mautic.page.model.trackable',
                     'mautic.helper.phone_number',
                     'mautic.helper.integration',
@@ -52,34 +58,38 @@ return [
                 ],
             ],
         ],
-        'models' => [
+        'models'       => [
         ],
         'integrations' => [
             'mautic.integration.slooce' => [
                 'class'     => \MauticPlugin\MauticSlooceTransportBundle\Integration\SlooceIntegration::class,
                 'arguments' => [
-                    'mautic.lead.model.field',
                 ],
-                'tags'      => ['mautic.integration', 'mautic.basic_integration', 'mautic.encryption_integration', 'mautic.dispatcher_integration'],
+                'tags'      => [
+                    'mautic.integration',
+                    'mautic.basic_integration',
+                    'mautic.config_integration',
+                    'mautic.auth_integration',
+                ],
             ],
         ],
     ],
-    'routes' => [
-        'main' => [
+    'routes'      => [
+        'main'   => [
         ],
         'public' => [
         ],
-        'api' => [
+        'api'    => [
         ],
     ],
-    'menu' => [
+    'menu'        => [
         'main' => [
             'items' => [
                 'mautic.sms.smses' => [
-                    'route'  => 'mautic_sms_index',
-                    'access' => ['sms:smses:viewown', 'sms:smses:viewother'],
-                    'parent' => 'mautic.core.channels',
-                    'checks' => [
+                    'route'    => 'mautic_sms_index',
+                    'access'   => ['sms:smses:viewown', 'sms:smses:viewother'],
+                    'parent'   => 'mautic.core.channels',
+                    'checks'   => [
                         'integration' => [
                             'Slooce' => [
                                 'enabled' => true,
@@ -91,6 +101,6 @@ return [
             ],
         ],
     ],
-    'parameters' => [
+    'parameters'  => [
     ],
 ];

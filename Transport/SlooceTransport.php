@@ -20,12 +20,14 @@ use Mautic\CoreBundle\Helper\PhoneNumberHelper;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\PageBundle\Model\TrackableModel;
-use Mautic\PluginBundle\Helper\IntegrationHelper;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
+use MauticPlugin\IntegrationsBundle\Exception\PluginNotConfiguredException;
+use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
+use MauticPlugin\MauticSlooceTransportBundle\Integration\SlooceIntegration;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Message\Validator\MessageContentValidator;
@@ -63,11 +65,21 @@ class SlooceTransport extends AbstractSmsApi
     private $doNotContactService;
 
     /**
+     * @var IntegrationsHelper
+     */
+    private $integrationsHelper;
+
+    /**
+     * @var bool
+     */
+    private $connectorConfigured = false;
+
+    /**
      * SlooceTransport constructor.
      *
      * @param TrackableModel    $pageTrackableModel
      * @param PhoneNumberHelper $phoneNumberHelper
-     * @param IntegrationHelper $integrationHelper
+     * @param IntegrationsHelper $integrationsHelper
      * @param Logger            $logger
      * @param Connector         $connector
      * @param MessageFactory    $messageFactory
@@ -76,7 +88,7 @@ class SlooceTransport extends AbstractSmsApi
     public function __construct(
         TrackableModel $pageTrackableModel,
         PhoneNumberHelper $phoneNumberHelper,
-        IntegrationHelper $integrationHelper,
+        IntegrationsHelper $integrationsHelper,
         Logger $logger,
         Connector $connector,
         MessageFactory $messageFactory,
@@ -87,21 +99,7 @@ class SlooceTransport extends AbstractSmsApi
         $this->connector           = $connector;
         $this->messageFactory      = $messageFactory;
         $this->doNotContactService = $doNotContactService;
-
-        $integration = $integrationHelper->getIntegrationObject('Slooce');
-
-        if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-            $keys = $integration->getDecryptedApiKeys($integration->getIntegrationSettings());
-
-            if (isset($keys['username']) && isset($keys['password']) && isset($keys['slooce_domain'])) {
-                $this->connector
-                    ->setSlooceDomain($keys['slooce_domain'])
-                    ->setPartnerId($keys['username'])
-                    ->setPassword($keys['password']);
-
-                $this->keywordField = isset($keys['keyword_field']) ? $keys['keyword_field'] : null;
-            }
-        }
+        $this->integrationsHelper  = $integrationsHelper;
 
         parent::__construct($pageTrackableModel);
     }
@@ -122,14 +120,14 @@ class SlooceTransport extends AbstractSmsApi
     }
 
     /**
-     * @param Lead $contact
-     * @param $content
+     * @param Lead   $contact
+     * @param string $content
      *
-     * @return bool|mixed|string
-     *
+     * @return bool|PluginNotConfiguredException|mixed|string
+     * @throws MessageException
      * @throws SloocePluginException
-     * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException
-     * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException
+     * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
+     * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException
      */
     public function sendSms(Lead $contact, $content)
     {
@@ -142,6 +140,10 @@ class SlooceTransport extends AbstractSmsApi
 
         if (is_null($this->connector)) {
             throw new SloocePluginException('There is no connector available');
+        }
+
+        if (!$this->connectorConfigured && !$this->configureConnector()) {
+            return new PluginNotConfiguredException();
         }
 
         /** @var MtMessage $message */
@@ -205,5 +207,34 @@ class SlooceTransport extends AbstractSmsApi
             $exception->getMessage(),
             true
         );
+    }
+
+    /**
+     * @return bool
+     * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
+     */
+    private function configureConnector()
+    {
+        $integration              = $this->integrationsHelper->getIntegration(SlooceIntegration::NAME);
+        $integrationConfiguration = $integration->getIntegrationConfiguration();
+
+        if ($integrationConfiguration->getIsPublished()) {
+            $keys = $integrationConfiguration->getApiKeys();
+
+            if (isset($keys['username']) && isset($keys['password']) && isset($keys['slooce_domain'])) {
+                $this->connector
+                    ->setSlooceDomain($keys['slooce_domain'])
+                    ->setPartnerId($keys['username'])
+                    ->setPassword($keys['password']);
+
+                $this->keywordField = isset($keys['keyword_field']) ? $keys['keyword_field'] : null;
+
+                $this->connectorConfigured = true;
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

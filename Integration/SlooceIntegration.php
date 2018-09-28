@@ -11,130 +11,51 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
-use Ivory\OrderedForm\Builder\OrderedFormBuilder;
-use Mautic\LeadBundle\Model\FieldModel;
 use MauticPlugin\IntegrationsBundle\Integration\BasicIntegration;
-use MauticPlugin\IntegrationsBundle\Integration\DispatcherIntegration;
-use MauticPlugin\IntegrationsBundle\Integration\EncryptionIntegration;
 use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
-use MauticPlugin\IntegrationsBundle\Integration\Interfaces\DispatcherInterface;
-use MauticPlugin\IntegrationsBundle\Integration\Interfaces\EncryptionInterface;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\FormBuilder;
+use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
+use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
+use MauticPlugin\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
+use MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType;
 
 /**
  * Class SlooceIntegration.
  */
-class SlooceIntegration extends BasicIntegration implements BasicInterface, EncryptionInterface, DispatcherInterface
+class SlooceIntegration extends BasicIntegration implements IntegrationInterface, BasicInterface, ConfigFormInterface, ConfigFormAuthInterface
 {
-    use EncryptionIntegration, DispatcherIntegration;
-
-    /**
-     * @var FieldModel
-     */
-    protected $fieldModel;
+    const NAME = 'Slooce';
 
     /**
      * {@inheritdoc}
      */
     public function getName(): string
     {
-        return 'Slooce';
-    }
-
-    /**
-     * SlooceIntegration constructor.
-     *
-     * @param FieldModel $fieldModel
-     */
-    public function __construct(FieldModel $fieldModel)
-    {
-        $this->fieldModel = $fieldModel;
+        return self::NAME;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getIcon()
+    public function getIcon(): string
     {
         return 'plugins/MauticSlooceTransportBundle/Assets/img/slooce.png';
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getSecretKeys()
-    {
-        return ['password'];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @return array
-     */
-    public function getRequiredKeyFields()
-    {
-        return [
-            'username' => 'mautic.sms.config.form.sms.slooce.partnerid',
-            'password' => 'mautic.sms.config.form.sms.slooce.password',
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function getFormSettings()
-    {
-        return [
-            'requires_callback'      => false,
-            'requires_authorization' => false,
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     *
      * @return string
      */
-    public function getAuthenticationType()
+    public function getAuthConfigFormName(): string
     {
-        return 'basic';
+        return ConfigAuthType::class;
     }
 
     /**
-     * @param OrderedFormBuilder $builder
-     * @param array              $data
-     * @param string             $formArea
+     * Use the default
+     *
+     * @return null|string
      */
-    public function appendToForm(FormBuilder $builder, array $data, string $formArea)
+    public function getConfigFormName(): ?string
     {
-        if ($formArea === 'keys') {
-            $builder->add(
-                'keyword_field',
-                ChoiceType::class,
-                [
-                    'choices'    => $this->fieldModel->getFieldList(),
-                    'label'      => 'mautic.slooce.config.keyword_field',
-                    'label_attr' => ['class' => 'control-label'],
-                    'required'   => true,
-                    'attr'       => [
-                        'class' => 'form-control',
-                    ],
-                ]
-            );
-            $builder->add(
-                'slooce_domain',
-                'text',
-                [
-                    'label'      => 'mautic.slooce.config.slooce_domain',
-                    'label_attr' => ['class' => 'control-label'],
-                    'required'   => true,
-                    'attr'       => [
-                        'class' => 'form-control',
-                    ],
-                ]
-            );
-        }
+        return null;
     }
 }
