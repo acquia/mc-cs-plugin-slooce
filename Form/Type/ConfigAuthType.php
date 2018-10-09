@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * @copyright   2018 Mautic Inc. All rights reserved
  * @author      Mautic, Inc.
@@ -11,13 +13,13 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Form\Type;
 
-
 use Mautic\LeadBundle\Model\FieldModel;
 use MauticPlugin\IntegrationsBundle\Form\Type\Auth\BasicAuthKeysTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConfigAuthType extends AbstractType
 {
@@ -42,7 +44,7 @@ class ConfigAuthType extends AbstractType
      * @param FormBuilderInterface $builder
      * @param array                $options
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->addKeyFields(
             $builder,
@@ -79,5 +81,15 @@ class ConfigAuthType extends AbstractType
                 'constraints' => [$this->getNotBlankConstraint()],
             ]
         );
+    }
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'integration' => null,
+        ]);
     }
 }
