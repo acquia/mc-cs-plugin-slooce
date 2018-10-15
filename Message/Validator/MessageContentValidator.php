@@ -46,35 +46,6 @@ class MessageContentValidator
             throw new InvalidMessageArgumentsException('Message content is too long. Maximum is '.self::MAX_CONTENT_LENGTH.' characters');
         }
 
-        self::validateString($content);
-
         return $message;
-    }
-
-    /**
-     * @param $content
-     *
-     * @see Supported Characters
-     * Generally speaking, only a subset of the standard ASCII character set is supported for content being
-     * delivered to the user via SMS. The list of supported characters are A-Z, a-z, 0-9 and the following:
-     * @$_/.,"():;-=+*&%#!?<>' plus space and newline "\n".
-     * Most special characters are not supported and will cause messages to be rejected by the wireless
-     * operators. In particular, accented characters and the following are NOT supported: tab [ ] ~ { } ^ | € \
-     * When authoring content for delivery via SMS, it is also important to use the simple ASCII characters
-     * for the apostrophe, the ellipsis, and single and double quotes:
-     * use ' instead of  <`> and <’>
-     * use " instead of  <“> and <”>
-     * use ... instead of ...   (Note: that's three separate periods instead of the single ellipsis character)
-     *
-     * @throws InvalidMessageArgumentsException
-     */
-    public static function validateString(string $content)
-    {
-        $matches = null;
-        $regexp  = '|^['.self::VALID_CHARACTERS.']+$|';
-
-        if (!preg_match($regexp, $content, $matches)) {
-            throw new InvalidMessageArgumentsException('Message content contains invalid characters');
-        }
     }
 }
