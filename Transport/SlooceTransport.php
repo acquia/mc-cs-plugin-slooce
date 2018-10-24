@@ -168,7 +168,9 @@ class SlooceTransport extends AbstractSmsApi
             return 'mautic.slooce.failed.invalid_phone_number';
         } catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
             $this->logger->addInfo('Invalid recipient', ['error' => $exception->getMessage()]);
-            $this->unsubscribeInvalidUser($contact, $exception);
+
+            /*Commenting the following line to prevent the user from getting marked as DNC according to the ticket #816. Keep it commented until further clarification/decision.*/
+            // $this->unsubscribeInvalidUser($contact, $exception);
 
             return 'mautic.slooce.failed.rejected_recipient';
         } catch (MessageException $exception) {  // Message contains invalid characters or is too long
