@@ -23,6 +23,7 @@ use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
 use MauticPlugin\IntegrationsBundle\Exception\PluginNotConfiguredException;
 use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
@@ -78,7 +79,6 @@ class SlooceTransport extends AbstractSmsApi
      * SlooceTransport constructor.
      *
      * @param TrackableModel    $pageTrackableModel
-     * @param PhoneNumberHelper $phoneNumberHelper
      * @param IntegrationsHelper $integrationsHelper
      * @param Logger            $logger
      * @param Connector         $connector
@@ -87,7 +87,6 @@ class SlooceTransport extends AbstractSmsApi
      */
     public function __construct(
         TrackableModel $pageTrackableModel,
-        PhoneNumberHelper $phoneNumberHelper,
         IntegrationsHelper $integrationsHelper,
         Logger $logger,
         Connector $connector,
@@ -127,7 +126,6 @@ class SlooceTransport extends AbstractSmsApi
      * @throws MessageException
      * @throws SloocePluginException
      * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
-     * @throws \MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException
      */
     public function sendSms(Lead $contact, $content)
     {
@@ -172,15 +170,25 @@ class SlooceTransport extends AbstractSmsApi
 
             return 'mautic.slooce.failed.rejected_recipient';
         } catch (MessageException $exception) {  // Message contains invalid characters or is too long
-            $this->logger->addError('Invalid message.', ['error' => $exception->getMessage()]);
+            $this->logger->addError(
+                'Invalid message.',
+                ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword()]
+            );
 
             return 'mautic.slooce.failed.invalid_message_format';
         } catch (SlooceServerException $exception) {
-            $this->logger->addError('Server response error.', ['error' => $exception->getMessage()]);
+            $this->logger->addError(
+                'Server response error.',
+                ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword()]
+            );
 
             return $exception->getMessage();
         } catch (SloocePluginException $exception) {
-            $this->logger->addError('Slooce plugin unhandled exception', ['error' => $exception->getMessage()]);
+            $this->logger->addError(
+                'Slooce plugin unhandled exception',
+                ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword()]
+            );
+
             throw $exception;
         }
 
