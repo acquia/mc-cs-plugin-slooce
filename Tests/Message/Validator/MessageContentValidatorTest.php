@@ -44,7 +44,7 @@ class MessageContentValidatorTest extends \PHPUnit_Framework_TestCase
 
         try {
             $message->setContent(str_repeat('.', MessageContentValidator::MAX_CONTENT_LENGTH + 1));
-            $this->fail('Setter should fail');
+            $this->validator->validate($message);
         } catch (\Exception $e) {
             $this->assertInstanceOf(InvalidMessageArgumentsException::class, $e, get_class($e).' matches InvalidMessageArgumentsException');
         }
