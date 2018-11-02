@@ -36,7 +36,6 @@ return [
                 'class'        => \MauticPlugin\MauticSlooceTransportBundle\Transport\SlooceTransport::class,
                 'arguments'    => [
                     'mautic.page.model.trackable',
-                    'mautic.helper.phone_number',
                     'mautic.integrations.helper',
                     'monolog.logger.mautic',
                     'mautic.slooce.connector',
