@@ -165,7 +165,11 @@ class SlooceTransport extends AbstractSmsApi
 
             return 'mautic.slooce.failed.invalid_phone_number';
         } catch (InvalidRecipientException $exception) {    // There is something with the user, probably opt-out
-            $this->logger->addInfo('Invalid recipient', ['error' => $exception->getMessage()]);
+            $this->logger->addInfo(
+                'Invalid recipient',
+                ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword(), 'payload' => $exception->getPayload()]
+            );
+
             $this->unsubscribeInvalidUser($contact, $exception);
 
             return 'mautic.slooce.failed.rejected_recipient';
@@ -179,7 +183,7 @@ class SlooceTransport extends AbstractSmsApi
         } catch (SlooceServerException $exception) {
             $this->logger->addError(
                 'Server response error.',
-                ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword()]
+                ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword(), 'payload' => $exception->getPayload()]
             );
 
             return $exception->getMessage();
