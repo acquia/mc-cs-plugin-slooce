@@ -11,23 +11,35 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 
-use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
-
 /**
  * Class SlooceServerException.
  */
-class SlooceServerException extends \Exception
+class SlooceServerException extends SloocePluginException
 {
+    /**
+     * @var null|string
+     */
+    private $payload;
+
     /**
      * SlooceServerException constructor.
      *
-     * @param string $xmlResponse
-     * @param int    $httpCode
+     * @param string      $xmlResponse
+     * @param int         $httpCode
+     * @param null|string $payload
      */
-    public function __construct(string $xmlResponse, int $httpCode)
+    public function __construct(string $xmlResponse, int $httpCode, string $payload = null)
     {
         $message = sprintf('%s (%d)', $xmlResponse, $httpCode);
 
-        parent::__construct($message, $httpCode);
+        parent::__construct($message, $httpCode, $payload);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPayload()
+    {
+        return $this->payload;
     }
 }

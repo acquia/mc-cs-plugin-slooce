@@ -68,6 +68,9 @@ class MtMessage extends AbstractMessage
      */
     public function setContent($content): MtMessage
     {
+        // Because this is XML based, these characters must be encoded based on Slooce docs
+        $content = htmlspecialchars($content, ENT_QUOTES|ENT_HTML5);
+
         $this->content = $content;
 
         return $this;
