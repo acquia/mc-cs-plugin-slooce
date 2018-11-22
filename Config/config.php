@@ -35,7 +35,6 @@ return [
             'mautic.sms.transport.slooce' => [
                 'class'        => \MauticPlugin\MauticSlooceTransportBundle\Transport\SlooceTransport::class,
                 'arguments'    => [
-                    'mautic.page.model.trackable',
                     'mautic.integrations.helper',
                     'monolog.logger.mautic',
                     'mautic.slooce.connector',
@@ -47,10 +46,16 @@ return [
                     'integrationAlias' => 'Slooce',
                 ],
             ],
+            'mautic.sms.slooce.callback' => [
+                'class' => \MauticPlugin\MauticSlooceTransportBundle\Callback\SlooceCallback::class,
+                'arguments' => [
+                    'mautic.sms.helper.contact',
+                ],
+                'tag' => 'mautic.sms_callback_handler',
+            ],
             'mautic.slooce.connector'     => [
                 'class'     => \MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector::class,
                 'arguments' => [
-                    'mautic.page.model.trackable',
                     'mautic.helper.phone_number',
                     'mautic.helper.integration',
                     'monolog.logger.mautic',
