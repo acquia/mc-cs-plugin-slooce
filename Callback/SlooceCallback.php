@@ -53,7 +53,7 @@ class SlooceCallback implements CallbackInterface
     {
         $this->validateRequest($request->request);
 
-        return $request->request->get('content');
+        return $request->get('content');
     }
 
     /**
