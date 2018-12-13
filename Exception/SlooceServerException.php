@@ -30,9 +30,11 @@ class SlooceServerException extends SloocePluginException
      */
     public function __construct(string $xmlResponse, int $httpCode, string $payload = null)
     {
+        $this->payload = $payload;
+
         $message = sprintf('%s (%d)', $xmlResponse, $httpCode);
 
-        parent::__construct($message, $httpCode, $payload);
+        parent::__construct($message, $httpCode);
     }
 
     /**
