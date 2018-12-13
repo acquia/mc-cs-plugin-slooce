@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace MauticPlugin\MauticSlooceTransportBundle\Slooce;
 
 use MauticPlugin\MauticSlooceTransportBundle\Exception\ConnectorException;
+use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
-use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
 /**
@@ -73,14 +73,13 @@ class Connector
     }
 
     /**
-     * @param $endpoint
+     * @param           $endpoint
      * @param MtMessage $message
      *
      * @return array
-     *
      * @throws ConnectorException
+     * @throws InvalidMessageArgumentsException
      * @throws InvalidRecipientException
-     * @throws SloocePluginException
      * @throws SlooceServerException
      */
     private function postMessage($endpoint, MtMessage $message)
@@ -115,38 +114,37 @@ class Connector
 
         $data = curl_exec($ch);
 
-        $response = $this->handleResponse($ch, $data, $message);
+        $response = $this->handleResponse($ch, $data, (string) $payload);
 
         return $response;
     }
 
     /**
-     * @param $curlHandler
-     * @param $data
-     * @param AbstractMessage $message
-     *
-     * @throws InvalidRecipientException
-     * @throws SlooceServerException
+     * @param                 $curlHandler
+     * @param                 $data
+     * @param string          $payload
      *
      * @return array
+     * @throws InvalidRecipientException
+     * @throws SlooceServerException
      */
-    private function handleResponse($curlHandler, $data, AbstractMessage $message): array
+    private function handleResponse($curlHandler, $data, string $payload): array
     {
         $httpcode = curl_getinfo($curlHandler, CURLINFO_HTTP_CODE);
 
         $xmlResponse = $data ? simplexml_load_string($data) : false;
 
         if ($xmlResponse === false || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
-            throw new SlooceServerException('curl exception :'.curl_error($curlHandler), $httpcode, $message);
+            throw new SlooceServerException('curl exception :'.curl_error($curlHandler), $httpcode, $payload);
         }
 
         switch ($httpcode) {
             case 202:
                 break;
             case 403:
-                throw new InvalidRecipientException((string) $xmlResponse, $httpcode);
+                throw new InvalidRecipientException((string) $xmlResponse, $httpcode, $payload);
             default:
-                throw new SlooceServerException((string) $xmlResponse, $httpcode);
+                throw new SlooceServerException((string) $xmlResponse, $httpcode, $payload);
                 break;
         }
 

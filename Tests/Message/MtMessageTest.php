@@ -48,4 +48,12 @@ class MtMessageTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertArrayNotHasKey(MtMessage::PASSWORD_ELEMENT, $this->message->getSanitizedArray());
     }
+
+    public function testSpecialCharactersAreEncoded()
+    {
+        $content = "<Check out> Sally & Mike's \"puppy\"";
+        $this->message->setContent($content);
+        $this->assertEquals('&lt;Check out&gt; Sally &amp; Mike&apos;s &quot;puppy&quot;', $this->message->getContent());
+
+    }
 }
