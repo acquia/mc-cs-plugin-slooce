@@ -16,14 +16,13 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Transport;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use Mautic\CoreBundle\Helper\PhoneNumberHelper;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
+use Mautic\SmsBundle\Sms\TransportInterface;
 use MauticPlugin\IntegrationsBundle\Exception\PluginNotConfiguredException;
 use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
-use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
@@ -38,7 +37,7 @@ use Monolog\Logger;
 /**
  * Class SlooceTransport is the transport service for mautic.
  */
-class SlooceTransport extends AbstractSmsApi
+class SlooceTransport implements TransportInterface
 {
     /**
      * @var Connector
@@ -78,7 +77,6 @@ class SlooceTransport extends AbstractSmsApi
     /**
      * SlooceTransport constructor.
      *
-     * @param TrackableModel    $pageTrackableModel
      * @param IntegrationsHelper $integrationsHelper
      * @param Logger            $logger
      * @param Connector         $connector
@@ -86,7 +84,6 @@ class SlooceTransport extends AbstractSmsApi
      * @param DoNotContact      $doNotContactService
      */
     public function __construct(
-        TrackableModel $pageTrackableModel,
         IntegrationsHelper $integrationsHelper,
         Logger $logger,
         Connector $connector,
@@ -99,23 +96,6 @@ class SlooceTransport extends AbstractSmsApi
         $this->messageFactory      = $messageFactory;
         $this->doNotContactService = $doNotContactService;
         $this->integrationsHelper  = $integrationsHelper;
-
-        parent::__construct($pageTrackableModel);
-    }
-
-    /**
-     * @param $number
-     *
-     * @return string
-     *
-     * @throws NumberParseException
-     */
-    protected function sanitizeNumber($number)
-    {
-        $util   = PhoneNumberUtil::getInstance();
-        $parsed = $util->parse($number, 'US');
-
-        return $util->format($parsed, PhoneNumberFormat::E164);
     }
 
     /**
