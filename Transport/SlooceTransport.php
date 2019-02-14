@@ -170,8 +170,7 @@ class SlooceTransport extends AbstractSmsApi
                 ['error' => $exception->getMessage(), 'number' => $number, 'keyword' => $message->getKeyword(), 'payload' => $exception->getPayload()]
             );
 
-            /*Commenting the following line to prevent the user from getting marked as DNC according to the ticket #816. Keep it commented until further clarification/decision.*/
-            // $this->unsubscribeInvalidUser($contact, $exception);
+            $this->unsubscribeInvalidUser($contact, $exception);
 
             return 'mautic.slooce.failed.rejected_recipient';
         } catch (MessageException $exception) {  // Message contains invalid characters or is too long
@@ -215,8 +214,8 @@ class SlooceTransport extends AbstractSmsApi
 
         $this->doNotContactService->addDncForContact(
             $contact->getId(),
-            'sms',  //  no idea
-            \Mautic\LeadBundle\Entity\DoNotContact::BOUNCED,
+            'sms',
+            \Mautic\LeadBundle\Entity\DoNotContact::UNSUBSCRIBED,
             $exception->getMessage(),
             true
         );
