@@ -18,8 +18,6 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\DoNotContact;
-use Mautic\PageBundle\Model\TrackableModel;
-use Mautic\SmsBundle\Api\AbstractSmsApi;
 use Mautic\SmsBundle\Sms\TransportInterface;
 use MauticPlugin\IntegrationsBundle\Exception\PluginNotConfiguredException;
 use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
