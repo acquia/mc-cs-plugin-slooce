@@ -41,11 +41,6 @@ class MtMessage extends AbstractMessage
     private $keyword;
 
     /**
-     * The maximum allowed size of the message's string.
-     */
-    const MAXIMUM_LENGTH = 160;
-
-    /**
      * @return array
      */
     public function getSerializable(): array
