@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Form\Type;
 
-use Mautic\LeadBundle\Model\FieldModel;
+use Mautic\LeadBundle\Field\FieldList;
 use MauticPlugin\IntegrationsBundle\Form\Type\Auth\BasicAuthKeysTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -26,18 +26,18 @@ class ConfigAuthType extends AbstractType
     use BasicAuthKeysTrait;
 
     /**
-     * @var FieldModel
+     * @var FieldList
      */
-    private $fieldModel;
+    private $fieldList;
 
     /**
      * ConfigAuthType constructor.
      *
-     * @param FieldModel $fieldModel
+     * @param FieldList $fieldList
      */
-    public function __construct(FieldModel $fieldModel)
+    public function __construct(FieldList $fieldList)
     {
-        $this->fieldModel = $fieldModel;
+        $this->fieldList = $fieldList;
     }
 
     /**
@@ -56,7 +56,7 @@ class ConfigAuthType extends AbstractType
             'keyword_field',
             ChoiceType::class,
             [
-                'choices'    => $this->fieldModel->getFieldList(),
+                'choices'    => $this->fieldList->getFieldList(),
                 'label'      => 'mautic.slooce.config.keyword_field',
                 'label_attr' => ['class' => 'control-label'],
                 'required'   => true,

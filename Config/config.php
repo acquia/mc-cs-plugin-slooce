@@ -21,13 +21,13 @@ return [
             'mautic.slooce.form.config_auth' => [
                 'class' => \MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType::class,
                 'arguments' => [
-                    'mautic.lead.model.field',
+                    'mautic.lead.field.field_list',
                 ],
             ],
         ],
         'helpers'      => [
             'mautic.slooce.message_factory' => [
-                'class' => 'MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory',
+                'class' => \MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory::class,
                 'alias' => 'slooce_message_factory',
             ],
         ],
