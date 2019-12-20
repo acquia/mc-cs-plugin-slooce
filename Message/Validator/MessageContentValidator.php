@@ -25,7 +25,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 class MessageContentValidator
 {
     const MAX_CONTENT_LENGTH = 160;
-    const VALID_CHARACTERS   = 'A-Za-z0-9\ @$_\/.,\'"():;\-=+*&%#!\\?<>';
 
     /**
      * @param MtMessage $message
