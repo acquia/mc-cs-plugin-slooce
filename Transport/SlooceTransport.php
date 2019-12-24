@@ -18,11 +18,9 @@ use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\DoNotContact;
-use Mautic\PageBundle\Model\TrackableModel;
-use Mautic\SmsBundle\Api\AbstractSmsApi;
+use Mautic\IntegrationsBundle\Exception\PluginNotConfiguredException;
+use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 use Mautic\SmsBundle\Sms\TransportInterface;
-use MauticPlugin\IntegrationsBundle\Exception\PluginNotConfiguredException;
-use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
@@ -105,7 +103,7 @@ class SlooceTransport implements TransportInterface
      * @return bool|PluginNotConfiguredException|mixed|string
      * @throws MessageException
      * @throws SloocePluginException
-     * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
+     * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
      */
     public function sendSms(Lead $contact, $content)
     {
@@ -203,7 +201,7 @@ class SlooceTransport implements TransportInterface
 
     /**
      * @return bool
-     * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
+     * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
      */
     private function configureConnector()
     {
