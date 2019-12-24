@@ -21,8 +21,8 @@ use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\PageBundle\Model\TrackableModel;
 use Mautic\SmsBundle\Api\AbstractSmsApi;
-use MauticPlugin\IntegrationsBundle\Exception\PluginNotConfiguredException;
-use MauticPlugin\IntegrationsBundle\Helper\IntegrationsHelper;
+use Mautic\IntegrationsBundle\Exception\PluginNotConfiguredException;
+use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
@@ -125,7 +125,7 @@ class SlooceTransport extends AbstractSmsApi
      * @return bool|PluginNotConfiguredException|mixed|string
      * @throws MessageException
      * @throws SloocePluginException
-     * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
+     * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
      */
     public function sendSms(Lead $contact, $content)
     {
@@ -223,7 +223,7 @@ class SlooceTransport extends AbstractSmsApi
 
     /**
      * @return bool
-     * @throws \MauticPlugin\IntegrationsBundle\Exception\IntegrationNotFoundException
+     * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
      */
     private function configureConnector()
     {

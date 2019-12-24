@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace MauticPlugin\MauticSlooceTransportBundle\Form\Type;
 
 use Mautic\LeadBundle\Model\FieldModel;
-use MauticPlugin\IntegrationsBundle\Form\Type\Auth\BasicAuthKeysTrait;
+use Mautic\IntegrationsBundle\Form\Type\Auth\BasicAuthKeysTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

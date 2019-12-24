@@ -11,12 +11,12 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Integration;
 
-use MauticPlugin\IntegrationsBundle\Integration\BasicIntegration;
-use MauticPlugin\IntegrationsBundle\Integration\DefaultConfigFormTrait;
-use MauticPlugin\IntegrationsBundle\Integration\Interfaces\BasicInterface;
-use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
-use MauticPlugin\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
-use MauticPlugin\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
+use Mautic\IntegrationsBundle\Integration\BasicIntegration;
+use Mautic\IntegrationsBundle\Integration\DefaultConfigFormTrait;
+use Mautic\IntegrationsBundle\Integration\Interfaces\BasicInterface;
+use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormAuthInterface;
+use Mautic\IntegrationsBundle\Integration\Interfaces\ConfigFormInterface;
+use Mautic\IntegrationsBundle\Integration\Interfaces\IntegrationInterface;
 use MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType;
 
 /**
