@@ -14,7 +14,7 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Message;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MessageFactory;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
-class MessageFactoryTest extends \PHPUnit_Framework_TestCase
+class MessageFactoryTest extends \PHPUnit\Framework\TestCase
 {
     public function testCreate()
     {

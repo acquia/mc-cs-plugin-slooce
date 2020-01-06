@@ -15,7 +15,7 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsEx
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Message\Validator\MessageContentValidator;
 
-class MessageContentValidatorTest extends \PHPUnit_Framework_TestCase
+class MessageContentValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var MessageContentValidator
