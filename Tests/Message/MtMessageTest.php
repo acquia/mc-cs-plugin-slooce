@@ -14,7 +14,7 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Message;
 use MauticPlugin\MauticSlooceTransportBundle\Message\AbstractMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
-class MtMessageTest extends \PHPUnit_Framework_TestCase
+class MtMessageTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MtMessage */
     private $message;

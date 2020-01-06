@@ -14,7 +14,7 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Transport;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 use MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector;
 
-class SlooceTransportTest extends \PHPUnit_Framework_TestCase
+class SlooceTransportTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Connector */
     private $connector;

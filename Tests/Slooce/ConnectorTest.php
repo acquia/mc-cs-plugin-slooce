@@ -13,7 +13,7 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Slooce;
 
 use MauticPlugin\MauticSlooceTransportBundle\Slooce\Connector;
 
-class ConnectorTest extends \PHPUnit_Framework_TestCase
+class ConnectorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var Connector
