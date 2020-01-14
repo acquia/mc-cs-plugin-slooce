@@ -35,5 +35,6 @@ class SlooceTransportTest extends \PHPUnit\Framework\TestCase
 
     public function testSendSms()
     {
+        $this->markTestSkipped(/** @todo */);
     }
 }
