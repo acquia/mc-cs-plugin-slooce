@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Form\Type;
 
-use Mautic\LeadBundle\Model\FieldModel;
 use Mautic\IntegrationsBundle\Form\Type\Auth\BasicAuthKeysTrait;
+use Mautic\LeadBundle\Model\FieldModel;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -64,7 +64,6 @@ class ConfigAuthType extends AbstractType
                     'class' => 'form-control',
                 ],
                 'constraints' => [$this->getNotBlankConstraint()],
-                'empty_value' => '',
             ]
         );
 
