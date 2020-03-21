@@ -14,14 +14,16 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Callback;
 
 use Mautic\SmsBundle\Helper\ContactHelper;
 use MauticPlugin\MauticSlooceTransportBundle\Callback\SlooceCallback;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class SlooceCallbackTest extends \PHPUnit_Framework_TestCase
+class SlooceCallbackTest extends TestCase
 {
     /**
-     * @var ContactHelper|\PHPUnit_Framework_MockObject_MockObject
+     * @var ContactHelper|MockObject
      */
     private $contactHelper;
 
