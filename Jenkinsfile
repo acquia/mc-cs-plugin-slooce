@@ -165,7 +165,7 @@ spec:
           changeRequest()
         }
         anyOf {
-	        branch 'development'
+	  branch 'development'
           branch 'beta'
           branch 'staging';
         }
