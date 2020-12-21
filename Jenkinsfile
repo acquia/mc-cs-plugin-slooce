@@ -121,9 +121,11 @@ spec:
     */
     stage('Automerge to development') {
       when {
-        changeRequest target: 'beta'
-        changeRequest target: 'staging'
-	changeRequest target: /^epic-.*/
+        anyOf {
+	  changeRequest target: 'beta'
+	  changeRequest target: 'staging'
+	  changeRequest target: /^epic-.*/
+        }
       }
       steps {
         script {
