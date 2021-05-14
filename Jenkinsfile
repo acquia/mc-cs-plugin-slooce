@@ -105,19 +105,19 @@ pipeline {
         //     }
         //   }
         // }
-        // stage('Styling') {
-        //   steps {
-        //     container('mautic-tester') {
-        //       ansiColor('xterm') {
-        //         dir("plugins/${env.SUBMODULE_NAME}") {
-        //           sh '''
-        //             vendor/bin/ecs check .
-        //           '''
-        //         }
-        //       }
-        //     }
-        //   }
-        // }
+        stage('CS Fixer') {
+          steps {
+            container('mautic-tester') {
+              ansiColor('xterm') {
+                dir("plugins/${env.SUBMODULE_NAME}") {
+                  sh '''
+                    composer csfixer
+                  '''
+                }
+              }
+            }
+          }
+        }
       }
     }
     stage('Automerge') {
