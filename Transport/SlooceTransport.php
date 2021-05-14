@@ -87,8 +87,7 @@ class SlooceTransport implements TransportInterface
         Connector $connector,
         MessageFactory $messageFactory,
         DoNotContact $doNotContactService
-    )
-    {
+    ) {
         $this->logger              = $logger;
         $this->connector           = $connector;
         $this->messageFactory      = $messageFactory;
@@ -137,7 +136,6 @@ class SlooceTransport implements TransportInterface
 
             MessageContentValidator::validate($message);
             $this->connector->sendMtMessage($message);
-
         } catch (NumberParseException $exception) {
             $this->logger->addInfo('Invalid number format', ['error' => $exception->getMessage()]);
 

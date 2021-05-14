@@ -98,7 +98,7 @@ class Connector
         $endpointURI = str_replace('<partnerid>', $this->getPartnerId(), $this->endpoints[$endpoint]);
         $endpointURI = str_replace('<user>', $message->getUserId(), $endpointURI);
         $endpointURI = str_replace('<keyword>', $message->getKeyword(), $endpointURI);
-        $apiURL      = rtrim($apiDomain,'/').'/'.$endpointURI;
+        $apiURL      = rtrim($apiDomain, '/').'/'.$endpointURI;
 
         $payload = $message->getXML();
 

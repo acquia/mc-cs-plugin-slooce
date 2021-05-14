@@ -54,6 +54,5 @@ class MtMessageTest extends \PHPUnit\Framework\TestCase
         $content = "<Check out> Sally & Mike's \"puppy\"";
         $this->message->setContent($content);
         $this->assertEquals('&lt;Check out&gt; Sally &amp; Mike&apos;s &quot;puppy&quot;', $this->message->getContent());
-
     }
 }

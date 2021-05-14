@@ -11,7 +11,6 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Callback;
 
-
 use Doctrine\Common\Collections\ArrayCollection;
 use Mautic\SmsBundle\Callback\CallbackInterface;
 use Mautic\SmsBundle\Helper\ContactHelper;
