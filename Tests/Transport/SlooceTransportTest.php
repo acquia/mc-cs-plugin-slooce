@@ -22,7 +22,7 @@ class SlooceTransportTest extends \PHPUnit\Framework\TestCase
     /** @var MtMessage */
     private $message;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->connector = $this->createMock(Connector::class);
         $this->connector->expects($this->any())->method('sendMtMessage')->will($this->returnValue(['status'=>true]));

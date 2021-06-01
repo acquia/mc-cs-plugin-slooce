@@ -22,7 +22,7 @@ class MessageContentValidatorTest extends \PHPUnit\Framework\TestCase
      */
     private $validator;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->validator = new MessageContentValidator();
         parent::setUp();
