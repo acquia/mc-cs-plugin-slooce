@@ -19,7 +19,7 @@ class MtMessageTest extends \PHPUnit\Framework\TestCase
     /** @var MtMessage */
     private $message;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->message = new MtMessage('test-message');
         $this->message->setContent('restistance is futile');

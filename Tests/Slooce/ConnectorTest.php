@@ -20,7 +20,7 @@ class ConnectorTest extends \PHPUnit\Framework\TestCase
      */
     private $connector;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->connector = new Connector();
         $this->connector
