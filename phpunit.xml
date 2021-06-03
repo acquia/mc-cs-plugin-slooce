@@ -2,15 +2,11 @@
 
 <!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit
-        backupGlobals               = "false"
-        backupStaticAttributes      = "false"
-        colors                      = "true"
-        convertErrorsToExceptions   = "true"
-        convertNoticesToExceptions  = "true"
-        convertWarningsToExceptions = "true"
-        processIsolation            = "false"
-        stopOnFailure               = "false"
-        bootstrap                   = "autoload.php" >
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+    colors                      = "true"
+    failOnWarning               = "true"
+    bootstrap                   = "autoload.php" >
 
     <testsuites>
         <testsuite name="unit">
@@ -39,5 +35,10 @@
             </exclude>
         </whitelist>
     </filter>
+
+    <listeners>
+        <listener class="\Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
+        <listener class="\Mautic\CoreBundle\Test\Listeners\CleanupListener" />
+    </listeners>
 
 </phpunit>
