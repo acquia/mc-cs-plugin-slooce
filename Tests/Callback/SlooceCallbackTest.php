@@ -11,7 +11,6 @@
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Tests\Callback;
 
-
 use Mautic\SmsBundle\Helper\ContactHelper;
 use MauticPlugin\MauticSlooceTransportBundle\Callback\SlooceCallback;
 use PHPUnit\Framework\MockObject\MockObject;
