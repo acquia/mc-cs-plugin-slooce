@@ -58,8 +58,6 @@ class Connector
     }
 
     /**
-     * @param MtMessage $message
-     *
      * @throws ConnectorException
      * @throws InvalidRecipientException
      * @throws SloocePluginException
@@ -73,10 +71,10 @@ class Connector
     }
 
     /**
-     * @param           $endpoint
-     * @param MtMessage $message
+     * @param $endpoint
      *
      * @return array
+     *
      * @throws ConnectorException
      * @throws InvalidMessageArgumentsException
      * @throws InvalidRecipientException
@@ -85,8 +83,7 @@ class Connector
     private function postMessage($endpoint, MtMessage $message)
     {
         if (!isset($this->endpoints[$endpoint])) {
-            throw new ConnectorException('Unknown endpoint '.$endpoint
-                .', registered endpoints: '.join(', ', array_keys($this->endpoints)));
+            throw new ConnectorException('Unknown endpoint '.$endpoint.', registered endpoints: '.join(', ', array_keys($this->endpoints)));
         }
 
         if (is_null($this->slooceDomain) || is_null($this->partnerId)) {
@@ -120,11 +117,9 @@ class Connector
     }
 
     /**
-     * @param                 $curlHandler
-     * @param                 $data
-     * @param string          $payload
+     * @param $curlHandler
+     * @param $data
      *
-     * @return array
      * @throws InvalidRecipientException
      * @throws SlooceServerException
      */
@@ -134,7 +129,7 @@ class Connector
 
         $xmlResponse = $data ? simplexml_load_string($data) : false;
 
-        if ($xmlResponse === false || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
+        if (false === $xmlResponse || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
             throw new SlooceServerException('curl exception :'.curl_error($curlHandler), $httpcode, $payload);
         }
 
@@ -153,19 +148,11 @@ class Connector
         return $array_data;
     }
 
-    /**
-     * @return string
-     */
     public function getSlooceDomain(): string
     {
         return $this->slooceDomain;
     }
 
-    /**
-     * @param string $slooceDomain
-     *
-     * @return Connector
-     */
     public function setSlooceDomain(string $slooceDomain): Connector
     {
         $this->slooceDomain = $slooceDomain;
@@ -173,19 +160,11 @@ class Connector
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPartnerId(): string
     {
         return $this->partnerId;
     }
 
-    /**
-     * @param string $partnerId
-     *
-     * @return Connector
-     */
     public function setPartnerId(string $partnerId): Connector
     {
         $this->partnerId = (string) $partnerId;
@@ -193,11 +172,6 @@ class Connector
         return $this;
     }
 
-    /**
-     * @param string $password
-     *
-     * @return Connector
-     */
     public function setPassword(string $password): Connector
     {
         $this->password = $password;
@@ -205,19 +179,11 @@ class Connector
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getShortCodeField(): string
     {
         return $this->shortCodeField;
     }
 
-    /**
-     * @param string $shortCodeField
-     *
-     * @return Connector
-     */
     public function setShortCodeField(string $shortCodeField): Connector
     {
         $this->shortCodeField = $shortCodeField;
