@@ -2,16 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright   2018 Mautic Contributors. All rights reserved
- * @author      Mautic
- *
- * @link        http://mautic.org
- *
- * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @author      Jan Kozak <galvani78@gmail.com>
- */
-
 namespace MauticPlugin\MauticSlooceTransportBundle\Slooce;
 
 use MauticPlugin\MauticSlooceTransportBundle\Exception\ConnectorException;
@@ -21,9 +11,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
-/**
- * Class Connector.
- */
 class Connector
 {
     /** @var string */
@@ -44,9 +31,6 @@ class Connector
     /** @var string */
     private $shortCodeField;
 
-    /**
-     * Connector constructor.
-     */
     public function __construct()
     {
         $this->slooceDomain = '';
@@ -71,7 +55,7 @@ class Connector
     }
 
     /**
-     * @param $endpoint
+     * @param string $endpoint
      *
      * @return array
      *
@@ -117,8 +101,8 @@ class Connector
     }
 
     /**
-     * @param $curlHandler
-     * @param $data
+     * @param \CurlHandle $curlHandler
+     * @param string      $data
      *
      * @throws InvalidRecipientException
      * @throws SlooceServerException
