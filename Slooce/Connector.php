@@ -101,8 +101,8 @@ class Connector
     }
 
     /**
-     * @param \CurlHandle $curlHandler
-     * @param string      $data
+     * @param resource     $curlHandler
+     * @param string|false $data
      *
      * @throws InvalidRecipientException
      * @throws SlooceServerException
@@ -113,7 +113,7 @@ class Connector
 
         $xmlResponse = $data ? simplexml_load_string($data) : false;
 
-        if (false === $xmlResponse || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
+        if (false === $xmlResponse || curl_errno($curlHandler)) {  //  This might be redundancy
             throw new SlooceServerException('curl exception :'.curl_error($curlHandler), $httpcode, $payload);
         }
 
