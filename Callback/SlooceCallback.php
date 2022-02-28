@@ -27,8 +27,6 @@ class SlooceCallback implements CallbackInterface
 
     /**
      * SlooceCallback constructor.
-     *
-     * @param ContactHelper $contactHelper
      */
     public function __construct(ContactHelper $contactHelper)
     {
@@ -44,8 +42,6 @@ class SlooceCallback implements CallbackInterface
     }
 
     /**
-     * @param Request $request
-     *
      * @return string
      */
     public function getMessage(Request $request)
@@ -56,9 +52,8 @@ class SlooceCallback implements CallbackInterface
     }
 
     /**
-     * @param Request $request
-     *
      * @return ArrayCollection
+     *
      * @throws \Mautic\SmsBundle\Exception\NumberNotFoundException
      */
     public function getContacts(Request $request)
@@ -70,9 +65,6 @@ class SlooceCallback implements CallbackInterface
         return $this->contactHelper->findContactsByNumber($user);
     }
 
-    /**
-     * @param ParameterBag $request
-     */
     private function validateRequest(ParameterBag $request)
     {
         if (

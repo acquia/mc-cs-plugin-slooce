@@ -17,16 +17,12 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Exception;
 class SlooceServerException extends SloocePluginException
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     private $payload;
 
     /**
      * SlooceServerException constructor.
-     *
-     * @param string      $xmlResponse
-     * @param int         $httpCode
-     * @param null|string $payload
      */
     public function __construct(string $xmlResponse, int $httpCode, string $payload = null)
     {

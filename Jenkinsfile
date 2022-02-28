@@ -92,19 +92,17 @@ pipeline {
             }
           }
         }
-        // stage('Static Analysis') {
-        //   steps {
-        //     container('mautic-tester') {
-        //       ansiColor('xterm') {
-        //         dir("plugins/${env.SUBMODULE_NAME}") {
-        //           sh '''
-        //             composer run-script phpstan
-        //           '''
-        //         }
-        //       }
-        //     }
-        //   }
-        // }
+        stage('Static Analysis') {
+          steps {
+            container('mautic-tester') {
+              ansiColor('xterm') {
+                sh '''
+                  composer run-script phpstan -- --no-progress
+                '''
+              }
+            }
+          }
+        }
         stage('CS Fixer') {
           steps {
             container('mautic-tester') {

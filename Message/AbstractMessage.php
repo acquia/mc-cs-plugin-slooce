@@ -19,7 +19,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsEx
 /**
  * Class Message.
  *
- *
  * @example
  * <message id="abcdef123">
  * <partnerpassword>jTUWufdis</partnerpassword>
@@ -60,8 +59,6 @@ abstract class AbstractMessage
 
     /**
      * @param null $partnerPassword
-     *
-     * @return AbstractMessage
      */
     public function setPartnerPassword($partnerPassword): AbstractMessage
     {
@@ -70,14 +67,9 @@ abstract class AbstractMessage
         return $this;
     }
 
-    /**
-     * @return array
-     */
     abstract public function getSerializable(): array;
 
     /**
-     * @return string
-     *
      * @throws InvalidMessageArgumentsException
      */
     public function getXML(): string
@@ -111,19 +103,11 @@ abstract class AbstractMessage
         return $xml->saveXML();
     }
 
-    /**
-     * @return string
-     */
     public function getMessageId(): string
     {
         return $this->messageId;
     }
 
-    /**
-     * @param string $messageId
-     *
-     * @return AbstractMessage
-     */
     public function setMessageId(string $messageId): AbstractMessage
     {
         $this->messageId = $messageId;
@@ -131,9 +115,6 @@ abstract class AbstractMessage
         return $this;
     }
 
-    /**
-     * @return AbstractMessage
-     */
     protected function generateMessageId(): AbstractMessage
     {
         $this->setMessageId('slooce-'.date('Ymd-Hims').'-'.substr(sha1(microtime()), 0, 5));
@@ -141,9 +122,6 @@ abstract class AbstractMessage
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSanitizedArray(): array
     {
         $serializable = $this->getSerializable();
@@ -153,7 +131,7 @@ abstract class AbstractMessage
 
         $output = [];
         foreach ($serializable as $key => $value) {
-            if ($key == self::PASSWORD_ELEMENT || $value == $this->partnerPassword) {
+            if (self::PASSWORD_ELEMENT == $key || $value == $this->partnerPassword) {
                 continue;
             }
             $output[] = sprintf("%s='%s'", $key, mb_convert_encoding($value, 'UTF-8', $this->apiEncoding));
@@ -162,11 +140,6 @@ abstract class AbstractMessage
         return $output;
     }
 
-    /**
-     * @param string $message
-     *
-     * @return string
-     */
     public function encodeStringToProviderEncoding(string $message): string
     {
         return mb_convert_encoding($message, 'UTF-8', $this->apiEncoding);

@@ -24,8 +24,6 @@ class MessageFactory
      * @param string $type      type of message to create, currently only **MTMessage**
      * @param null   $messageId
      *
-     * @return AbstractMessage
-     *
      * @throws MessageException
      */
     public function create($type = 'MTMessage', $messageId = null): AbstractMessage

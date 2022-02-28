@@ -28,10 +28,6 @@ class MessageContentValidator
     const VALID_CHARACTERS   = 'A-Za-z0-9\ @$_\/.,\'"():;\-=+*&%#!\\?<>';
 
     /**
-     * @param MtMessage $message
-     *
-     * @return MtMessage
-     *
      * @throws InvalidMessageArgumentsException
      */
     public static function validate(MtMessage $message): MtMessage

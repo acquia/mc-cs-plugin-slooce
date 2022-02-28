@@ -44,9 +44,6 @@ class SlooceIntegration extends BasicIntegration implements IntegrationInterface
         return 'plugins/MauticSlooceTransportBundle/Assets/img/slooce.png';
     }
 
-    /**
-     * @return string
-     */
     public function getAuthConfigFormName(): string
     {
         return ConfigAuthType::class;

@@ -16,10 +16,10 @@ namespace MauticPlugin\MauticSlooceTransportBundle\Transport;
 use libphonenumber\NumberParseException;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use Mautic\LeadBundle\Entity\Lead;
-use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\IntegrationsBundle\Exception\PluginNotConfiguredException;
 use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
+use Mautic\LeadBundle\Entity\Lead;
+use Mautic\LeadBundle\Model\DoNotContact;
 use Mautic\SmsBundle\Sms\TransportInterface;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
@@ -74,12 +74,6 @@ class SlooceTransport implements TransportInterface
 
     /**
      * SlooceTransport constructor.
-     *
-     * @param IntegrationsHelper $integrationsHelper
-     * @param Logger            $logger
-     * @param Connector         $connector
-     * @param MessageFactory    $messageFactory
-     * @param DoNotContact      $doNotContactService
      */
     public function __construct(
         IntegrationsHelper $integrationsHelper,
@@ -96,10 +90,10 @@ class SlooceTransport implements TransportInterface
     }
 
     /**
-     * @param Lead   $contact
      * @param string $content
      *
      * @return bool|PluginNotConfiguredException|mixed|string
+     *
      * @throws MessageException
      * @throws SloocePluginException
      * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
@@ -177,9 +171,6 @@ class SlooceTransport implements TransportInterface
 
     /**
      * Add user to DNC.
-     *
-     * @param Lead       $contact
-     * @param \Exception $exception
      */
     private function unsubscribeInvalidUser(Lead $contact, \Exception $exception)
     {
@@ -199,6 +190,7 @@ class SlooceTransport implements TransportInterface
 
     /**
      * @return bool
+     *
      * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
      */
     private function configureConnector()

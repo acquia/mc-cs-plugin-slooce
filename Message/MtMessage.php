@@ -45,17 +45,11 @@ class MtMessage extends AbstractMessage
      */
     const MAXIMUM_LENGTH = 160;
 
-    /**
-     * @return array
-     */
     public function getSerializable(): array
     {
         return ['content' => $this->getContent()];
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): string
     {
         return $this->content;
@@ -63,13 +57,11 @@ class MtMessage extends AbstractMessage
 
     /**
      * @param $content
-     *
-     * @return MtMessage
      */
     public function setContent($content): MtMessage
     {
         // Because this is XML based, these characters must be encoded based on Slooce docs
-        $content = htmlspecialchars($content, ENT_QUOTES|ENT_HTML5);
+        $content = htmlspecialchars($content, ENT_QUOTES | ENT_HTML5);
 
         $this->content = $content;
 
@@ -86,8 +78,6 @@ class MtMessage extends AbstractMessage
 
     /**
      * @param string $userId
-     *
-     * @return MtMessage
      */
     public function setUserId($userId): MtMessage
     {
@@ -106,8 +96,6 @@ class MtMessage extends AbstractMessage
 
     /**
      * @param string $keyword
-     *
-     * @return MtMessage
      */
     public function setKeyword($keyword): MtMessage
     {
@@ -116,9 +104,6 @@ class MtMessage extends AbstractMessage
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getSanitizedArray(): array
     {
         $output            = parent::getSanitizedArray();

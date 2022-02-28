@@ -26,7 +26,6 @@ class SlooceCallbackTest extends TestCase
      */
     private $contactHelper;
 
-
     protected function setUp(): void
     {
         $this->contactHelper = $this->createMock(ContactHelper::class);
@@ -91,7 +90,6 @@ class SlooceCallbackTest extends TestCase
 
         $this->assertEquals('Hello', $this->getCallback()->getMessage($request));
     }
-
 
     /**
      * @return SlooceCallback

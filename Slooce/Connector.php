@@ -2,16 +2,6 @@
 
 declare(strict_types=1);
 
-/*
- * @copyright   2018 Mautic Contributors. All rights reserved
- * @author      Mautic
- *
- * @link        http://mautic.org
- *
- * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @author      Jan Kozak <galvani78@gmail.com>
- */
-
 namespace MauticPlugin\MauticSlooceTransportBundle\Slooce;
 
 use MauticPlugin\MauticSlooceTransportBundle\Exception\ConnectorException;
@@ -21,9 +11,6 @@ use MauticPlugin\MauticSlooceTransportBundle\Exception\SloocePluginException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\SlooceServerException;
 use MauticPlugin\MauticSlooceTransportBundle\Message\MtMessage;
 
-/**
- * Class Connector.
- */
 class Connector
 {
     /** @var string */
@@ -44,9 +31,6 @@ class Connector
     /** @var string */
     private $shortCodeField;
 
-    /**
-     * Connector constructor.
-     */
     public function __construct()
     {
         $this->slooceDomain = '';
@@ -58,8 +42,6 @@ class Connector
     }
 
     /**
-     * @param MtMessage $message
-     *
      * @throws ConnectorException
      * @throws InvalidRecipientException
      * @throws SloocePluginException
@@ -73,10 +55,10 @@ class Connector
     }
 
     /**
-     * @param           $endpoint
-     * @param MtMessage $message
+     * @param string $endpoint
      *
      * @return array
+     *
      * @throws ConnectorException
      * @throws InvalidMessageArgumentsException
      * @throws InvalidRecipientException
@@ -85,8 +67,7 @@ class Connector
     private function postMessage($endpoint, MtMessage $message)
     {
         if (!isset($this->endpoints[$endpoint])) {
-            throw new ConnectorException('Unknown endpoint '.$endpoint
-                .', registered endpoints: '.join(', ', array_keys($this->endpoints)));
+            throw new ConnectorException('Unknown endpoint '.$endpoint.', registered endpoints: '.join(', ', array_keys($this->endpoints)));
         }
 
         if (is_null($this->slooceDomain) || is_null($this->partnerId)) {
@@ -120,11 +101,9 @@ class Connector
     }
 
     /**
-     * @param                 $curlHandler
-     * @param                 $data
-     * @param string          $payload
+     * @param resource     $curlHandler
+     * @param string|false $data
      *
-     * @return array
      * @throws InvalidRecipientException
      * @throws SlooceServerException
      */
@@ -134,7 +113,7 @@ class Connector
 
         $xmlResponse = $data ? simplexml_load_string($data) : false;
 
-        if ($xmlResponse === false || false === $data || curl_errno($curlHandler)) {  //  This might be redundancy
+        if (false === $xmlResponse || curl_errno($curlHandler)) {  //  This might be redundancy
             throw new SlooceServerException('curl exception :'.curl_error($curlHandler), $httpcode, $payload);
         }
 
@@ -153,19 +132,11 @@ class Connector
         return $array_data;
     }
 
-    /**
-     * @return string
-     */
     public function getSlooceDomain(): string
     {
         return $this->slooceDomain;
     }
 
-    /**
-     * @param string $slooceDomain
-     *
-     * @return Connector
-     */
     public function setSlooceDomain(string $slooceDomain): Connector
     {
         $this->slooceDomain = $slooceDomain;
@@ -173,19 +144,11 @@ class Connector
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getPartnerId(): string
     {
         return $this->partnerId;
     }
 
-    /**
-     * @param string $partnerId
-     *
-     * @return Connector
-     */
     public function setPartnerId(string $partnerId): Connector
     {
         $this->partnerId = (string) $partnerId;
@@ -193,11 +156,6 @@ class Connector
         return $this;
     }
 
-    /**
-     * @param string $password
-     *
-     * @return Connector
-     */
     public function setPassword(string $password): Connector
     {
         $this->password = $password;
@@ -205,19 +163,11 @@ class Connector
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getShortCodeField(): string
     {
         return $this->shortCodeField;
     }
 
-    /**
-     * @param string $shortCodeField
-     *
-     * @return Connector
-     */
     public function setShortCodeField(string $shortCodeField): Connector
     {
         $this->shortCodeField = $shortCodeField;

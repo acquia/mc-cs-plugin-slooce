@@ -19,7 +19,7 @@ return [
         ],
         'forms'        => [
             'mautic.slooce.form.config_auth' => [
-                'class' => \MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType::class,
+                'class'     => \MauticPlugin\MauticSlooceTransportBundle\Form\Type\ConfigAuthType::class,
                 'arguments' => [
                     'mautic.lead.model.field',
                 ],
@@ -47,7 +47,7 @@ return [
                 ],
             ],
             'mautic.sms.slooce.callback' => [
-                'class' => \MauticPlugin\MauticSlooceTransportBundle\Callback\SlooceCallback::class,
+                'class'     => \MauticPlugin\MauticSlooceTransportBundle\Callback\SlooceCallback::class,
                 'arguments' => [
                     'mautic.sms.helper.contact',
                 ],
