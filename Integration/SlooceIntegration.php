@@ -26,7 +26,7 @@ class SlooceIntegration extends BasicIntegration implements IntegrationInterface
 {
     use DefaultConfigFormTrait;
 
-    const NAME = 'Slooce';
+    public const NAME = 'Slooce';
 
     /**
      * {@inheritdoc}

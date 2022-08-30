@@ -30,7 +30,7 @@ abstract class AbstractMessage
     /**
      * Part of the message that should contain the password.
      */
-    const PASSWORD_ELEMENT = 'partnerpassword';
+    public const PASSWORD_ELEMENT = 'partnerpassword';
 
     /**
      * @var string

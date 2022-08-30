@@ -43,7 +43,7 @@ class MtMessage extends AbstractMessage
     /**
      * The maximum allowed size of the message's string.
      */
-    const MAXIMUM_LENGTH = 160;
+    public const MAXIMUM_LENGTH = 160;
 
     public function getSerializable(): array
     {
