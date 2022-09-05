@@ -16,7 +16,7 @@
     "mautic/mautic": "^2.14"
   },
   "scripts": {
-    "csfixer": "../../bin/php-cs-fixer fix . -v --dry-run --diff --using-cache=no",
-    "fixcs": "../../bin/php-cs-fixer fix . -v --using-cache=no"
+    "csfixer": "../../bin/php-cs-fixer fix . -v --dry-run --diff --using-cache=no --config=../../.php-cs-fixer.php",
+    "fixcs": "../../bin/php-cs-fixer fix . -v --using-cache=no --config=../../.php-cs-fixer.php"
   }
 }
