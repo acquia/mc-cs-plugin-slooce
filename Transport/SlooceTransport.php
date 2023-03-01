@@ -91,8 +91,9 @@ class SlooceTransport implements TransportInterface
     }
 
     /**
-     * @param string $content
+     * @param string       $content
      * @param array<mixed> $media
+     *
      * @return bool|PluginNotConfiguredException|mixed|string
      *
      * @throws MessageException
