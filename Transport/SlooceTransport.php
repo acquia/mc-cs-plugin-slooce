@@ -20,7 +20,6 @@ use Mautic\IntegrationsBundle\Exception\PluginNotConfiguredException;
 use Mautic\IntegrationsBundle\Helper\IntegrationsHelper;
 use Mautic\LeadBundle\Entity\Lead;
 use Mautic\LeadBundle\Model\DoNotContact;
-use Mautic\SmsBundle\Entity\Stat;
 use Mautic\SmsBundle\Sms\TransportInterface;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\MessageException;
@@ -91,8 +90,7 @@ class SlooceTransport implements TransportInterface
     }
 
     /**
-     * @param string       $content
-     * @param array<mixed> $media
+     * @param string $content
      *
      * @return bool|PluginNotConfiguredException|mixed|string
      *
@@ -100,7 +98,7 @@ class SlooceTransport implements TransportInterface
      * @throws SloocePluginException
      * @throws \Mautic\IntegrationsBundle\Exception\IntegrationNotFoundException
      */
-    public function sendSms(Lead $contact, $content, Stat $stat = null, array $media = [])
+    public function sendSms(Lead $contact, $content)
     {
         $number = $contact->getLeadPhoneNumber();
         if (empty($number)) {
