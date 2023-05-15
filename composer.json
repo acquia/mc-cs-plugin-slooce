@@ -13,6 +13,7 @@
     }
   ],
   "require": {
+    "php": ">=7.4.0 <8.1",
     "mautic/mautic": "^2.14"
   },
   "scripts": {
