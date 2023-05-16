@@ -13,8 +13,7 @@
     }
   ],
   "require": {
-    "php": "^7.4 || ^8.0",
-    "mautic/mautic": "^2.14"
+    "php": "^7.4 || ^8.0"
   },
   "scripts": {
     "csfixer": "../../bin/php-cs-fixer fix . -v --dry-run --diff --using-cache=no --config=../../.php-cs-fixer.php",
