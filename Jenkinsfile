@@ -11,7 +11,7 @@ pipeline {
   agent {
     kubernetes {
       inheritFrom 'with-mysql'
-      yaml libraryResource('mautic-tester-74-withcomposer2.yaml')
+      yaml libraryResource('mautic-tester-80-withcomposer2.yaml')
     }
   }
   stages {
@@ -73,7 +73,7 @@ pipeline {
             CI_PULL_REQUEST = "${env.CHANGE_ID}"
             CI_BRANCH = "${env.BRANCH_NAME}"
             CI_BUILD_URL = "${env.BUILD_URL}"
-          }   
+          }
           steps {
             container('mautic-tester') {
               ansiColor('xterm') {
@@ -165,5 +165,5 @@ pipeline {
         postFixedScript()
       }
     }
-  }  
+  }
 }

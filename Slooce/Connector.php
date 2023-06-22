@@ -101,8 +101,8 @@ class Connector
     }
 
     /**
-     * @param resource     $curlHandler
-     * @param string|false $data
+     * @param \CurlHandle|false|resource $curlHandler
+     * @param string|false               $data
      *
      * @throws InvalidRecipientException
      * @throws SlooceServerException
