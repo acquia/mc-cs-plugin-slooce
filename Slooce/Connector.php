@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MauticPlugin\MauticSlooceTransportBundle\Slooce;
 
+use CurlHandle;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\ConnectorException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidMessageArgumentsException;
 use MauticPlugin\MauticSlooceTransportBundle\Exception\InvalidRecipientException;
@@ -101,8 +102,8 @@ class Connector
     }
 
     /**
-     * @param resource     $curlHandler
-     * @param string|false $data
+     * @param resource|CurlHandle $curlHandler
+     * @param string|false        $data
      *
      * @throws InvalidRecipientException
      * @throws SlooceServerException
