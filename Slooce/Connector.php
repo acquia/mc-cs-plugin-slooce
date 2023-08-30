@@ -101,7 +101,7 @@ class Connector
     }
 
     /**
-     * @param \CurlHandle|false|resource $curlHandler
+     * @param resource $curlHandler
      * @param string|false               $data
      *
      * @throws InvalidRecipientException
